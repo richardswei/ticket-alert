@@ -45,23 +45,22 @@ ActiveRecord::Schema.define(version: 2019_12_09_230713) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "event_name", default: ""
-    t.integer "price_curr", default: 0
-    t.integer "price_t0", default: 0
-    t.integer "price_t1", default: 0
-    t.integer "price_t2", default: 0
-    t.integer "price_t3", default: 0
-    t.integer "price_t4", default: 0
-    t.integer "price_t5", default: 0
-    t.integer "price_t6", default: 0
-    t.integer "price_t30", default: 0
     t.string "event_url", default: ""
+    t.integer "event_id"
+    t.integer "price_curr", default: 0
+    t.string "price_t30", default: [], array: true
+    t.index ["event_id"], name: "index_events_on_event_id", unique: true
   end
 
   create_table "performers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "event_start"
     t.string "performer_url"
+    t.string "name"
+    t.string "slug"
+    t.integer "performer_id"
+    t.integer "venue_id"
+    t.index ["performer_id"], name: "index_performers_on_performer_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

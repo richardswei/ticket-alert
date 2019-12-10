@@ -4,18 +4,12 @@ class CreateEvents < ActiveRecord::Migration[5.2]
 
       t.timestamps
       t.string :event_name, default: ""
-      t.integer :price_curr, default: 0
-      t.integer :price_t0, default: 0
-      t.integer :price_t1, default: 0
-      t.integer :price_t2, default: 0
-      t.integer :price_t3, default: 0
-      t.integer :price_t4, default: 0
-      t.integer :price_t5, default: 0
-      t.integer :price_t6, default: 0
-      t.integer :price_t30, default: 0
       t.string :event_url, default: ""
-
+      t.integer :event_id
+      t.integer :price_curr, default: 0
+      t.string :price_t30, array: true, default: []
 
     end
+    add_index :events, :event_id, unique: true
   end
 end
