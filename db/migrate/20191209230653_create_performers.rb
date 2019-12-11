@@ -3,13 +3,15 @@ class CreatePerformers < ActiveRecord::Migration[5.2]
     create_table :performers do |t|
 
       t.timestamps
-      t.string :performer_url
-      t.string :name
-      t.string :slug
-      t.integer :performer_id
-      t.integer :venue_id
+      t.string :url, default: ""
+      t.string :name, default: ""
+      t.string :slug, default: ""
+      t.integer :performer_number
+      t.integer :home_venue_number
 
     end
-    add_index :performers, :performer_id, unique: true
+   
+    add_index :performers, :performer_number, unique: true
+
   end
 end
