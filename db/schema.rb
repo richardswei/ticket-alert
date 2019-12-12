@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_062255) do
+ActiveRecord::Schema.define(version: 2019_12_11_223228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,16 @@ ActiveRecord::Schema.define(version: 2019_12_11_062255) do
     t.datetime "expiration_time"
     t.datetime "event_time_utc"
     t.string "price_t30", default: [], array: true
+    t.bigint "venues_id"
     t.index ["event_number"], name: "index_events_on_event_number", unique: true
+    t.index ["venues_id"], name: "index_events_on_venues_id"
+  end
+
+  create_table "events_performers", id: false, force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "performer_id"
+    t.index ["event_id"], name: "index_events_performers_on_event_id"
+    t.index ["performer_id"], name: "index_events_performers_on_performer_id"
   end
 
   create_table "performers", force: :cascade do |t|
