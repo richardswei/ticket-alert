@@ -2,6 +2,8 @@ class HomeController < ApplicationController
   
   def index
     @performers = Performer.all
+    # email test
+    @user = User.first
   end
 
   def set_updates
