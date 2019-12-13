@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   require 'json'
   require 'date'
 
-  def get_api_response(pageNumber=1)
+  def get_api_response(block, pageNumber=1)
     results_per_page = 50
     client_id = get_client_id
     response = HTTParty.get("https://api.seatgeek.com/2/events?taxonomies.name=nba&per_page=50&page=#{pageNumber}&client_id=#{client_id}" ,format: :plain)
@@ -22,79 +22,22 @@ class ApplicationController < ActionController::Base
         :venue => event[:venue].slice(:timezone, :slug, :name, :url, :id, :city, :state, :postal_code, :address),
         :url => event[:url]
       }
-    end
-    
+    end    
     total_results = metadata[:total]
     pageNumber = metadata[:page]
-    populate_performers(events_data)
-    populate_events(events_data)
-    # populate_venues(events_data)
-    p pageNumber
-
-    if (pageNumber>=(total_results/(results_per_page.to_f)).ceil || pageNumber>20)
+    # yield to block where do can do database stuff
+    # yield(events_data)
+    block.call(events_data)
+    
+    total_api_calls = (total_results/(results_per_page.to_f)).ceil
+    p "#{pageNumber} of #{total_api_calls}"
+    if (pageNumber>=total_api_calls)
       return
     else
       pageNumber += 1
-      get_api_response(pageNumber)
-    end
-
-  end
-
-  # def get_url_by_performer_name(name)
-  # end
-
-  # def get_url_by_performer_id(id)
-  # end
-
-  # def get_url_by_event_name(name)
-  # end
-
-  # def get_url_by_event_id(id)
-  # end
-
-  def populate_performers(api_response)
-    performers_data = api_response.map {|x| x[:performers]}
-    performers_data.each do |performer|
-      performer_hash = performer.first #this gets the hash
-      Performer.where(performer_number: performer_hash[:id]).
-        first_or_initialize.update_attributes!(
-          :slug => performer_hash[:slug],
-          :name => performer_hash[:name],
-          :home_venue_number => performer_hash[:home_venue_id],
-          :url => performer_hash[:url]
-        )
+      get_api_response(block, pageNumber)
     end
   end
-
-  def populate_events(api_response)
-    api_response.each do |event|
-      Event.where(event_number: event[:id]).
-        first_or_initialize.update_attributes!(
-          :name => event[:title],
-          :url => event[:url],
-          :price_curr => event[:lowest_price],
-          :event_time_utc => DateTime.parse(event[:event_time_utc]),
-          :expiration_time => DateTime.parse(event[:expiration_time]),
-          :venue_number => event[:venue][:id]
-        )
-
-      venue_data = event[:venue]
-      venue_data[:venue_number] = venue_data.delete :id
-      Venue.where(venue_number: venue_data[:venue_number]).
-        first_or_initialize.update_attributes!(
-          venue_data
-        )
-    end
-  end
-
-  # def populate_venues(api_response)
-  #   venue_data = api_response[:venue].rekey!(:id => venue_number)
-  #   Venue.where(venue_number: venue_data[:id]).
-  #     first_or_initialize.update_attributes!(
-  #       venue_data
-  #     )
-  # end
-
 
 
   private

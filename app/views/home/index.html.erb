@@ -3,5 +3,6 @@
   <% @performers.each do |performer| %>
     <div><%=performer.name %></div>
   <% end %>
-  <%= button_to 'Update Database', home_set_updates_path, method: :post %>
+  <%= button_to 'Update Database', home_populate_database_path, method: :post %>
+  <%= button_to 'Update Prices', home_set_prices_from_api_path, method: :post %>
 </body>

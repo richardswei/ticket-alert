@@ -52,9 +52,9 @@ ActiveRecord::Schema.define(version: 2019_12_12_220616) do
     t.datetime "expiration_time"
     t.datetime "event_time_utc"
     t.string "price_t30", default: [], array: true
-    t.bigint "venues_id"
+    t.bigint "venue_id"
     t.index ["event_number"], name: "index_events_on_event_number", unique: true
-    t.index ["venues_id"], name: "index_events_on_venues_id"
+    t.index ["venue_id"], name: "index_events_on_venue_id"
   end
 
   create_table "events_performers", id: false, force: :cascade do |t|

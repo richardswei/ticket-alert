@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: 'users/registrations' }
+  devise_for :users
   # eg. http://localhost:3000/users/sign_in
   devise_for :admin_users, ActiveAdmin::Devise.config
   # eg. http://localhost:3000/admins/sign_in
@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :performers do
       resources :events
     end
-    post "home/set_updates"
+    post "home/populate_database"
+    post "home/set_prices_from_api"
 
 end
