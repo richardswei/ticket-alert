@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     end
     post "home/populate_database"
     post "home/set_prices_from_api"
+    post "home/send_email"
 
 end

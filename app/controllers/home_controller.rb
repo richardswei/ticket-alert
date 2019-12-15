@@ -13,6 +13,13 @@ class HomeController < ApplicationController
   def set_prices_from_api
     set_prices_proc = Proc.new{ |response| update_prices(response) }
     get_api_response(set_prices_proc)
+    get_discounts_by_performer(16)
+  end
+
+  def send_email
+    User.all.each do |user|
+      UserMailer.discount_alert(user).deliver_later
+    end
   end
 
   def populate_events(api_response)
@@ -56,25 +63,21 @@ class HomeController < ApplicationController
   end
 
   def update_prices(api_response)
-    discounted = []
     api_response.each do |event|
       # populate event
       current_event = Event.find_by(event_number: event[:id])  
       return if current_event.nil?
       return if event[:lowest_price].nil?
       return if current_event[:price_curr].nil?
-      if event[:lowest_price] < current_event[:price_curr]
-        p "price change detected"
-        discounted.push(name: event[:title], old_price: current_event[:price_curr], new_price: event[:lowest_price])
-      end
+      current_event[:last_price] = current_event[:price_curr]
+      current_event.save!
       current_event.update_attributes!(
         :price_curr => event[:lowest_price],
       )
     end
-    if discounted.length > 0
-      UserMailer.discount_alert(discounted).deliver_later
-    end
   end
+
+
 
 
 end

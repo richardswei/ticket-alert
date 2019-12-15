@@ -4,17 +4,15 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hi, <%= "user" %></h1>
+    <h1>Hi, <%= @user.email %></h1>
     <p>Some games have dropped in price</p>
     <table>
-      <% table = @events.map do |x|
-        "#{x[:name]} was $#{x[:old_price]} and is now $#{x[:new_price]}"
-      end %>
-      <%=table%>
+      <% @events.each do |x| %>
+        <tr> 
+          <%= "#{x["name"]} was $#{x["last_price"]} and is now $#{x["price_curr"]}" %>
+        </tr>
+      <% end %>
     </table>
-    <p>
-      To login to the site, just follow this link: <%= @url %>.
-    </p>
-    <p>Thanks for joining and have a great day!</p>
   </body>
 </html>
+
