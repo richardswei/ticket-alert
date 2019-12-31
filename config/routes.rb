@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :events
     end
     post "home/populate_database"
-    post "home/set_prices_from_api"
+    post "home/update_events"
     post "home/send_email"
 
 end

@@ -10,6 +10,7 @@ ActiveAdmin.register Event do
     column :price_curr
     column :expiration_time
     column :event_time_utc
+    column :last_price
     column :price_t30
 
     actions

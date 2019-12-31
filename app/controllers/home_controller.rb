@@ -10,16 +10,27 @@ class HomeController < ApplicationController
     get_api_response(populate_db_proc)
   end
 
+  def update_events
+    set_prices_from_api
+    p 'begin deleting events...'
+    delete_expired_events
+    p 'finish deleting events.'
+  end
+
   def set_prices_from_api
     set_prices_proc = Proc.new{ |response| update_prices(response) }
     get_api_response(set_prices_proc)
-    get_discounts_by_performer(16)
+    # get_discounts_by_performer(16)
   end
 
   def send_email
     User.all.each do |user|
       UserMailer.discount_alert(user).deliver_later
     end
+  end
+
+  def delete_expired_events
+    Event.where("expiration_time < ?", 0.days.ago).destroy_all
   end
 
   def populate_events(api_response)
@@ -76,8 +87,5 @@ class HomeController < ApplicationController
       )
     end
   end
-
-
-
 
 end
