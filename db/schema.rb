@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_230713) do
+ActiveRecord::Schema.define(version: 2019_12_14_002640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,24 +44,36 @@ ActiveRecord::Schema.define(version: 2019_12_09_230713) do
   create_table "events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "event_name", default: ""
+    t.string "name", default: ""
+    t.string "url", default: ""
+    t.integer "event_number"
+    t.integer "venue_number"
     t.integer "price_curr", default: 0
-    t.integer "price_t0", default: 0
-    t.integer "price_t1", default: 0
-    t.integer "price_t2", default: 0
-    t.integer "price_t3", default: 0
-    t.integer "price_t4", default: 0
-    t.integer "price_t5", default: 0
-    t.integer "price_t6", default: 0
-    t.integer "price_t30", default: 0
-    t.string "event_url", default: ""
+    t.datetime "expiration_time"
+    t.datetime "event_time_utc"
+    t.string "price_t30", default: [], array: true
+    t.bigint "venue_id"
+    t.integer "last_price"
+    t.index ["event_number"], name: "index_events_on_event_number", unique: true
+    t.index ["venue_id"], name: "index_events_on_venue_id"
+  end
+
+  create_table "events_performers", id: false, force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "performer_id"
+    t.index ["event_id"], name: "index_events_performers_on_event_id"
+    t.index ["performer_id"], name: "index_events_performers_on_performer_id"
   end
 
   create_table "performers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "event_start"
-    t.string "performer_url"
+    t.string "url", default: ""
+    t.string "name", default: ""
+    t.string "slug", default: ""
+    t.integer "performer_number"
+    t.integer "home_venue_number"
+    t.index ["performer_number"], name: "index_performers_on_performer_number", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -72,8 +84,28 @@ ActiveRecord::Schema.define(version: 2019_12_09_230713) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "venues", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.string "name"
+    t.string "url"
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "timezone"
+    t.integer "postal_code"
+    t.integer "venue_number"
+    t.index ["venue_number"], name: "index_venues_on_venue_number", unique: true
   end
 
 end

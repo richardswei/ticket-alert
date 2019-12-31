@@ -1,1 +1,9 @@
-<h1>Ticket Alert</h1>
+<body>
+  <h1>Ticket Alert</h1>
+  <% @performers.each do |performer| %>
+    <div><%=performer.name %></div>
+  <% end %>
+  <%= button_to 'Update Database', home_populate_database_path, method: :post %>
+  <%= button_to 'Update Events', home_update_events_path, method: :post %>
+  <%= button_to 'Send Email', home_send_email_path, method: :post %>
+</body>
