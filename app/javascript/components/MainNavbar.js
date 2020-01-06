@@ -11,15 +11,18 @@ class MainNavbar extends React.Component {
     return (
       <React.Fragment>
         <Navbar bg="dark" variant="dark">
-          <Navbar.Brand href="#home"><h2>Ticket Alert</h2></Navbar.Brand>
+          <Navbar.Brand href="/"><h2>Ticket Alert</h2></Navbar.Brand>
           <Nav className="mr-auto">
-            <Nav.Link href="#performers">Performers</Nav.Link>
-            <Nav.Link href="#venue">Venue</Nav.Link>
+            <Nav.Link href="/performers">Performers</Nav.Link>
+            <Nav.Link href="/venues">Venue</Nav.Link>
           </Nav>
           <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
             <Button variant="outline-info">Search</Button>
           </Form>
+          {this.props.userSignedIn ? 
+          <Nav.Link href="/users/sign_out" data-method="delete">Sign Out</Nav.Link> :
+          <Nav.Link href="/users/sign_in">Sign In</Nav.Link> }
         </Navbar>
       </React.Fragment>
     );

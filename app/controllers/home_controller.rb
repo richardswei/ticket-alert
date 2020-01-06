@@ -78,12 +78,18 @@ class HomeController < ApplicationController
       # populate event
       current_event = Event.find_by(event_number: event[:id])  
       return if current_event.nil?
-      return if event[:lowest_price].nil?
-      return if current_event[:price_curr].nil?
-      current_event[:last_price] = current_event[:price_curr]
-      current_event.save!
+      current_price = event[:lowest_price]
+
+      updated_last30 = current_event[:price_t30].push(current_price)
+      if updated_last30.length>30
+        updated_last30.shift()
+      end
       current_event.update_attributes!(
-        :price_curr => event[:lowest_price],
+        :price_t30 => updated_last30
+      )
+      current_event.update_attributes!(
+        :price_curr => updated_last30[updated_last30.length-1],
+        :last_price => updated_last30[updated_last30.length-2],
       )
     end
   end
