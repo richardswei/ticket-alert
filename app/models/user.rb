@@ -4,4 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
 
+  has_many :event_follows
+  has_many :events, -> {distinct}, through: :event_follows
+
 end
