@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'event_follows/create'
+  get 'event_follows/new'
   devise_for :users
   # eg. http://localhost:3000/users/sign_in
   devise_for :admin_users, ActiveAdmin::Devise.config

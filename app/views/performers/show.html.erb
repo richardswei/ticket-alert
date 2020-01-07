@@ -1,0 +1,6 @@
+<h2><%= @performer.name %></h2>
+<h5>Upcoming Events</h5>
+<% @events.each do |event|%>
+  <%p event%>
+ <div><%= link_to event.name, performer_event_path(@performer, event) %></div>
+<% end %>

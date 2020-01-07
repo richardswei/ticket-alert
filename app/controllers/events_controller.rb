@@ -1,8 +1,8 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!
 
-  def index
-    @events = Event.all
+  def show
+    @event = Event.find(params[:id])
+    @performer = Performer.find(params[:performer_id])
   end
-  
+
 end
