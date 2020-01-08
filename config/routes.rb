@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :performers do
       resources :events
     end
+    resources :users, only: [:show]
     post "home/populate_database"
     post "home/update_events"
     post "home/send_email"
