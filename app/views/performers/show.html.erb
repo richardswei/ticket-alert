@@ -2,5 +2,5 @@
 <h5>Upcoming Events</h5>
 <% @events.each do |event|%>
   <%p event%>
- <div><%= link_to event.name, performer_event_path(@performer, event) %></div>
+  <div><%= link_to event.name, performer_event_path(@performer, event) %></div>
 <% end %>
