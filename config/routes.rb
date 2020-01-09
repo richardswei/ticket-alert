@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  get 'event_follows/create'
-  get 'event_follows/new'
+  # get 'event_follows/new'
   devise_for :users
   devise_scope :user do
     get '/users', to: 'devise/registrations#new'
@@ -13,7 +12,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: "home#index"
     resources :performers do
-      resources :events
+      resources :events do 
+        post 'add_follow', on: :member
+      end
     end
     # resources :users, only: [:show]
     post "home/populate_database"
