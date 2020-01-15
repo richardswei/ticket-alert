@@ -2,6 +2,11 @@ class HomeController < ApplicationController
   require 'httparty'
   require 'json'
   require 'date'
+  
+  def index
+    @performers = Performer.all
+    # email test
+  end
 
   def get_api_response(block, pageNumber=1)
     results_per_page = 50
@@ -39,11 +44,6 @@ class HomeController < ApplicationController
     end
   end
 
-  def index
-    @performers = Performer.all
-    # email test
-  end
-
   def populate_database
     populate_db_proc = Proc.new { |response| populate_events(response) }
     get_api_response(populate_db_proc)
@@ -53,18 +53,18 @@ class HomeController < ApplicationController
     set_prices_from_api
     p 'begin deleting events...'
     delete_expired_events
-    p 'finish deleting events.'
+    p 'finished deleting events.'
   end
 
   def set_prices_from_api
     set_prices_proc = Proc.new{ |response| update_prices(response) }
     get_api_response(set_prices_proc)
-    # get_discounts_by_performer(16)
   end
 
   def send_email
     User.all.each do |user|
-      UserMailer.discount_alert(user).deliver_later
+      relevant_events = user.events
+      UserMailer.discount_alert(user, relevant_events).deliver_later
     end
   end
 

@@ -20,7 +20,7 @@ class EventsController < ApplicationController
     # @event = Event.find(params[:id])
     @event_follow = EventFollow.new(user_id: user_signed_in? ? current_user.id : nil, event_id: params[:id])
     if @event_follow.save
-      p 'a'
+      p 'Event Followed'
     else
       flash[:error] = @event_follow.errors.messages 
     end
