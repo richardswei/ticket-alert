@@ -13,8 +13,12 @@
   <body>
     <%= react_component("MainNavbar", userSignedIn: user_signed_in?) %>
     <div class="container">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <% if (notice) %>
+        <%= react_component("Notification", {variant: "success", text: notice} ) %>
+      <% end %>
+      <% if (alert) %>
+        <%= react_component("Notification", {variant: "danger", text: alert} ) %>
+      <% end %>
       <%= yield %>
     </div> 
   </body>
