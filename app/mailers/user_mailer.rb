@@ -6,17 +6,12 @@ class UserMailer < ApplicationMailer
       p events
       @user = user
       @url  = 'http://localhost:3000/'
-      @events = events
+      @events = events.as_json(:include => { :venue => {
+        :only => "timezone"
+      }})
       mail(to: @user.email, subject: 'Prices Update')
     end
   end
 
-  def filter_discounted_events(events)
-    events.where('price_curr < last_price').distinct.
-      as_json(:include => { :venue => {
-        :only => "timezone"
-      }})
-
-  end
-
+ 
 end

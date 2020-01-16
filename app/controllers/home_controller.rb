@@ -50,10 +50,10 @@ class HomeController < ApplicationController
   end
 
   def update_events
-    set_prices_from_api
-    p 'begin deleting events...'
+    p 'begin deleting expired events...'
     delete_expired_events
-    p 'finished deleting events.'
+    p 'finished deleting expired events.'
+    set_prices_from_api
   end
 
   def set_prices_from_api
@@ -63,9 +63,13 @@ class HomeController < ApplicationController
 
   def send_email
     User.all.each do |user|
-      relevant_events = user.events
+      relevant_events = filter_discounted_events(user.events).to_a
       UserMailer.discount_alert(user, relevant_events).deliver_later
     end
+  end
+
+  def filter_discounted_events(events)
+    events.where('price_curr < last_price').distinct
   end
 
   def delete_expired_events
