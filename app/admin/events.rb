@@ -12,6 +12,7 @@ ActiveAdmin.register Event do
     column :event_time_utc
     column :last_price
     column :price_t30
+    column :home_team
 
     actions
   end

@@ -1,6 +1,20 @@
 <h2><%= @performer.name %></h2>
 <h5>Upcoming Events</h5>
 <% @events.each do |event|%>
-  <%p event%>
-  <div><%= link_to event.name, performer_event_path(@performer, event) %></div>
+  <% event_tz = event.venue.timezone %>
+  <% time = event.event_time_utc%>
+  <% tz_full_datetime = time.in_time_zone(event_tz)%>
+  <% tz_date = tz_full_datetime.strftime('%-m/%d/%y ') %>
+  <% tz_time = tz_full_datetime.strftime('%-I:%m %p %Z') %>
+  
+  <strong><%= "#{tz_date} @ #{tz_time}" %></strong>
+  <p><%= link_to event.name, performer_event_path(@performer, event) %></p>
+
 <% end %>
+
+<%#= react_component('EventCard', {
+  awayTeam: away_team,
+  homeTeam: event.home_team,
+  eventName: event.name,
+  eventTime: "#{tz_date} @ #{tz_time}",
+}) %>

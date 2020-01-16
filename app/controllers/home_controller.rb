@@ -25,9 +25,10 @@ class HomeController < ApplicationController
         :expiration_time => event[:visible_until_utc],
         :performers => event[:performers].map{|x| x.slice(:slug, :name, :id, :home_venue_id, :url)},
         :venue => event[:venue].slice(:timezone, :slug, :name, :url, :id, :city, :state, :postal_code, :address),
-        :url => event[:url]
+        :url => event[:url],
+        :home_team => get_home_team(event)
       }
-    end    
+    end
     total_results = metadata[:total]
     pageNumber = metadata[:page]
     # yield to block where do can do database stuff
@@ -35,13 +36,26 @@ class HomeController < ApplicationController
     block.call(events_data)
     
     total_api_calls = (total_results/(results_per_page.to_f)).ceil
-    p "#{pageNumber} of #{total_api_calls}"
+    p "Done: #{pageNumber} of #{total_api_calls}"
     if (pageNumber>=total_api_calls)
       return
     else
       pageNumber += 1
       get_api_response(block, pageNumber)
     end
+  end
+
+  # return the slug of the first home team; arg should be an event obj
+  def get_home_team(event)
+    home_team = event[:performers].find {|team| team[:home_team]}
+    if home_team.nil?
+      lowercase_name = event[:title].downcase.split(' at ')[1]
+      home_team_slug = 
+        lowercase_name.nil? ? "none" : lowercase_name.gsub(' ','-')
+    else 
+      home_team_slug = home_team[:slug]
+    end
+    home_team_slug
   end
 
   def populate_database
@@ -104,6 +118,7 @@ class HomeController < ApplicationController
         current_event.update_attributes!(
           :name => event[:title],
           :url => event[:url],
+          :home_team => event[:home_team],
           :price_curr => event[:lowest_price],
           :event_time_utc => DateTime.parse(event[:event_time_utc]),
           :expiration_time => DateTime.parse(event[:expiration_time]),

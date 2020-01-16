@@ -5,7 +5,7 @@ class PerformersController < ApplicationController
 
   def show
     @performer = Performer.find(params[:id])
-    @events = @performer.events.all.distinct
+    @events = @performer.events.all.distinct.order("event_time_utc ASC")
   end
   
 end
