@@ -2,6 +2,8 @@
 <h5>All Performers</h5>
 <div>
   <% @performers.each do |performer| %>
-    <%= link_to performer.name, performer_path(performer) %>
+    <div>
+      <%= link_to performer.name, performer_path(performer) %>
+    </div>
   <% end %>
 </div>

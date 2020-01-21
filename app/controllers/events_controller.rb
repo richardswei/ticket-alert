@@ -12,7 +12,7 @@ class EventsController < ApplicationController
       checked: false,
       csrf: form_authenticity_token,
       current_user: current_user,
-    }
+    }, prerender: false
   end
 
   def add_follow

@@ -6,6 +6,7 @@ function getLocalTime(dateTime) {
   const d = new Date(dateTime);
   return d; 
 }
+
 class EventDetails extends React.Component {
   constructor(props) {
     super(props);

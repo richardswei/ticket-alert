@@ -12,13 +12,13 @@ class TeamHeader extends React.Component {
       <React.Fragment>
         <Jumbotron>
           <Container fluid>
-            <Row>
-              <Col md={3}>
+            <Row className="team-header">
+              <Col>
                 <Image className="team-logo" src={`/logos/${this.props.slug}.png`}></Image>
               </Col>
-              <Col md={9}>
-                <h4>Upcoming Events for {this.props.team}</h4>
-              </Col>
+            </Row>
+            <Row className="team-header">
+              <h2>{this.props.header}</h2>
             </Row>
           </Container>
         </Jumbotron>

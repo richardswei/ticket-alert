@@ -5,7 +5,16 @@ class PerformersController < ApplicationController
 
   def show
     @performer = Performer.find(params[:id])
-    @events = @performer.events.all.distinct.order("event_time_utc ASC")
+    @header = "All Home #{@performer.name} Events"
+    @events = @performer.events.all.distinct.
+      order("event_time_utc ASC").as_json(include: :venue)
+    render component: 'PerformerEvents', props: { 
+      events: @events,
+      performer: @performer,
+      checked: false,
+      csrf: form_authenticity_token,
+      current_user: current_user,
+    }, prerender: false
   end
-  
+
 end
