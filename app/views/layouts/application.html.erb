@@ -4,12 +4,21 @@
     <title>TicketAlert</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>
-    <%= yield %>
+    <%= react_component("MainNavbar", userSignedIn: user_signed_in?) %>
+    <div class="container">
+      <% if (notice) %>
+        <%= react_component("Notification", {variant: "success", text: notice} ) %>
+      <% end %>
+      <% if (alert) %>
+        <%= react_component("Notification", {variant: "danger", text: alert} ) %>
+      <% end %>
+      <%= yield %>
+    </div> 
   </body>
 </html>

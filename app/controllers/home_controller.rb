@@ -1,8 +1,61 @@
 class HomeController < ApplicationController
+  require 'httparty'
+  require 'json'
+  require 'date'
   
   def index
     @performers = Performer.all
     # email test
+  end
+
+  def get_api_response(block, pageNumber=1)
+    results_per_page = 50
+    client_id = get_client_id
+    response = HTTParty.get("https://api.seatgeek.com/2/events?taxonomies.name=nba&per_page=50&page=#{pageNumber}&client_id=#{client_id}" ,format: :plain)
+    parsed_json = JSON.parse(response.body, symbolize_names: true)
+    metadata = parsed_json[:meta]
+    events_list = parsed_json[:events]
+    events_data = events_list.map do |event|
+      {
+        :id => event[:id],
+        :title => event[:title],
+        :short_title => event[:short_title],
+        :lowest_price => event[:stats][:lowest_sg_base_price],
+        :event_time_utc => event[:datetime_utc],
+        :expiration_time => event[:visible_until_utc],
+        :performers => event[:performers].map{|x| x.slice(:slug, :name, :id, :home_venue_id, :url)},
+        :venue => event[:venue].slice(:timezone, :slug, :name, :url, :id, :city, :state, :postal_code, :address),
+        :url => event[:url],
+        :home_team => get_home_team(event)
+      }
+    end
+    total_results = metadata[:total]
+    pageNumber = metadata[:page]
+    # yield to block where do can do database stuff
+    # yield(events_data)
+    block.call(events_data)
+    
+    total_api_calls = (total_results/(results_per_page.to_f)).ceil
+    p "Done: #{pageNumber} of #{total_api_calls}"
+    if (pageNumber>=total_api_calls)
+      return
+    else
+      pageNumber += 1
+      get_api_response(block, pageNumber)
+    end
+  end
+
+  # return the slug of the first home team; arg should be an event obj
+  def get_home_team(event)
+    home_team = event[:performers].find {|team| team[:home_team]}
+    if home_team.nil?
+      lowercase_name = event[:title].downcase.split(' at ')[1]
+      home_team_slug = 
+        lowercase_name.nil? ? "none" : lowercase_name.gsub(' ','-')
+    else 
+      home_team_slug = home_team[:slug]
+    end
+    home_team_slug
   end
 
   def populate_database
@@ -11,22 +64,26 @@ class HomeController < ApplicationController
   end
 
   def update_events
-    set_prices_from_api
-    p 'begin deleting events...'
+    p 'begin deleting expired events...'
     delete_expired_events
-    p 'finish deleting events.'
+    p 'finished deleting expired events.'
+    set_prices_from_api
   end
 
   def set_prices_from_api
     set_prices_proc = Proc.new{ |response| update_prices(response) }
     get_api_response(set_prices_proc)
-    # get_discounts_by_performer(16)
   end
 
   def send_email
     User.all.each do |user|
-      UserMailer.discount_alert(user).deliver_later
+      relevant_events = filter_discounted_events(user.events).to_a
+      UserMailer.discount_alert(user, relevant_events).deliver_later
     end
+  end
+
+  def filter_discounted_events(events)
+    events.where('price_curr < last_price').distinct
   end
 
   def delete_expired_events
@@ -61,6 +118,7 @@ class HomeController < ApplicationController
         current_event.update_attributes!(
           :name => event[:title],
           :url => event[:url],
+          :home_team => event[:home_team],
           :price_curr => event[:lowest_price],
           :event_time_utc => DateTime.parse(event[:event_time_utc]),
           :expiration_time => DateTime.parse(event[:expiration_time]),
@@ -78,14 +136,26 @@ class HomeController < ApplicationController
       # populate event
       current_event = Event.find_by(event_number: event[:id])  
       return if current_event.nil?
-      return if event[:lowest_price].nil?
-      return if current_event[:price_curr].nil?
-      current_event[:last_price] = current_event[:price_curr]
-      current_event.save!
+      current_price = event[:lowest_price]
+
+      updated_last30 = current_event[:price_t30].push(current_price)
+      if updated_last30.length>30
+        updated_last30.shift()
+      end
       current_event.update_attributes!(
-        :price_curr => event[:lowest_price],
+        :price_t30 => updated_last30
+      )
+      current_event.update_attributes!(
+        :price_curr => updated_last30[updated_last30.length-1],
+        :last_price => updated_last30[updated_last30.length-2],
       )
     end
+  end
+  
+  private
+  
+  def get_client_id
+    'MTk4Mjk2NTB8MTU3NTkyNDE3MS43Mg'
   end
 
 end

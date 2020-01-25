@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_14_002640) do
+ActiveRecord::Schema.define(version: 2020_01_16_050451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,14 @@ ActiveRecord::Schema.define(version: 2019_12_14_002640) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "event_follows", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "event_id"
+    t.index ["user_id", "event_id"], name: "index_event_follows_on_user_id_and_event_id", unique: true
+  end
+
   create_table "events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,6 +62,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_002640) do
     t.string "price_t30", default: [], array: true
     t.bigint "venue_id"
     t.integer "last_price"
+    t.string "home_team"
     t.index ["event_number"], name: "index_events_on_event_number", unique: true
     t.index ["venue_id"], name: "index_events_on_venue_id"
   end
@@ -88,9 +97,11 @@ ActiveRecord::Schema.define(version: 2019_12_14_002640) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.string "username"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   create_table "venues", force: :cascade do |t|
