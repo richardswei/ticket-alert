@@ -23,7 +23,7 @@ class MainNavbar extends React.Component {
               <Button variant="outline-info">Search</Button>
             </Form>
             {this.props.userSignedIn ? <NavDropdown title="Account" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/users/1">Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/users/my_profile">Profile</NavDropdown.Item>
               <NavDropdown.Item href="/users/sign_out" data-method="delete">Sign Out</NavDropdown.Item>
             </NavDropdown> : <Nav.Link href="/users/sign_in">Sign In</Nav.Link> }
           </Nav>

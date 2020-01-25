@@ -1,2 +1,22 @@
 <h2>Account</h2>
-<div>Hi, <%= @user.email %></div>
+<div>Hi, <%= @user.username %></div>
+<div>You are following these events:</div>
+<table>
+  <%@event_follows.sort_by { |event_follow| event_follow.event.event_time_utc }.each do |event_follow|%>
+    <% event = event_follow.event %>
+    <tr>
+      <td>
+        <%=event.event_time_utc.in_time_zone(event.venue.timezone).strftime('%m/%d/%y %I:%M %p %Z') %>
+      </td>
+      <td>
+        <%= link_to "#{event.name}", event.url %>
+      </td>
+      <td>
+        Starting at $<%=event.price_curr%>    
+      </td>
+      <td>
+        <%= link_to "Unfollow", event_follow_path(event_follow.id), method: :delete %>  
+      </td>
+    </tr>
+  <%end%>
+</table>

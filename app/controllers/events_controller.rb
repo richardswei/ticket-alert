@@ -1,29 +1,27 @@
 class EventsController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :authenticate_user!, :except => [:show]
-
+  include EventsHelper
+  
   def show
     @event = Event.find(params[:id])
-    @performer = Performer.find(params[:performer_id])
-    # react_component("EventDetails")
+    @performer_slugs = @event.performers.pluck(:slug).uniq
     render component: 'EventDetails', props: { 
+      event_followed: current_user ? @event.event_follows.pluck(:user_id).include?(current_user.id) : nil,
       event: @event,
-      performer: @performer,
+      performer_slugs: @performer_slugs,
       checked: false,
       csrf: form_authenticity_token,
       current_user: current_user,
     }, prerender: false
   end
 
-  def add_follow
-    # @user = User.find(current_user.id)
-    # @event = Event.find(params[:id])
-    @event_follow = EventFollow.new(user_id: user_signed_in? ? current_user.id : nil, event_id: params[:id])
-    if @event_follow.save
-      p 'Event Followed'
-    else
-      flash[:error] = @event_follow.errors.messages 
-    end
+  def add_individual_follow
+    add_follow(params[:id])
+  end
+
+  def delete_individual_follow
+    delete_follow(params[:id])
   end
 
 end
