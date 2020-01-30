@@ -1,15 +1,17 @@
 class UserMailer < ApplicationMailer
-  default from: 'pricealertbyrichard@gmail.com'
+  default from: 'ticketalertproduction@gmail.com'
 
   def discount_alert(user, events)
     if events.length>0
-      p events
       @user = user
-      @url  = 'http://localhost:3000/'
+      @url  = Rails.application.config.action_mailer.default_url_options
       @events = events.as_json(:include => { :venue => {
         :only => "timezone"
       }})
       mail(to: @user.email, subject: 'Prices Update')
+      p "Email to #{@user.username} sent"
+    else
+      p "Email to #{@user.username} not sent (no discounted events)"
     end
   end
 

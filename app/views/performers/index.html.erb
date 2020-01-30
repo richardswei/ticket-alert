@@ -1,9 +1,5 @@
 <h2>Performers</h2>
 <h5>All Performers</h5>
 <div>
-  <% @performers.each do |performer| %>
-    <div>
-      <%= link_to performer.name, performer_path(performer) %>
-    </div>
-  <% end %>
+  <%= react_component("PerformerList", {performers: @performers}) %>
 </div>

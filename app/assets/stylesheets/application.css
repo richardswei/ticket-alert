@@ -14,7 +14,44 @@
  *= require_self
  */
 
+.list-team-logo{
+  margin-right: 1rem
+}
 
-container: {
-  margin: auto
+.team-logo {
+  max-height: 8rem;
+  max-width: 8rem;
+}
+
+.team-logo-md {
+  max-height: 5rem;
+  max-width: 5rem;
+}
+
+.team-logo-sm {
+  max-height: 3rem;
+  max-width: 3rem;
+}
+
+.team-header{
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.performer-list .card {
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: none;
+  text-align: center;
+  background: none;
+}
+
+.performer-btn:hover {
+  background: aliceblue;
+}
+
+.performer-btn .inner-card {
+  text-decoration: none;
 }

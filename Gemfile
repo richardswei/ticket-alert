@@ -65,6 +65,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'activeadmin'
 gem 'httparty'
+gem 'whenever'
 
 # React Rails
 gem 'webpacker'

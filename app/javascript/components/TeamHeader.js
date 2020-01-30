@@ -14,7 +14,10 @@ class TeamHeader extends React.Component {
           <Container fluid>
             <Row className="team-header">
               <Col>
-                <Image className="team-logo" src={`/logos/${this.props.slug}.png`}></Image>
+                <Image className="team-logo" 
+                  src={`/logos/${this.props.slug}.png`} 
+                  ref={img => this.img = img} 
+                  onError={() => this.img.src = '/no-image-found.png' }/>
               </Col>
             </Row>
             <Row className="team-header">

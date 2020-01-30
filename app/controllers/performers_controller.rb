@@ -1,6 +1,5 @@
 class PerformersController < ApplicationController
   
-  
   def index
     @performers = Performer.all
   end
@@ -8,14 +7,17 @@ class PerformersController < ApplicationController
   def show
     @performer = Performer.find(params[:id])
     @events = @performer.events.all.distinct
-    total_home_events = @events
-      .map{|event| event['home_team']}
-      .select{|slug| slug == @performer.slug}.count
-    followed_home_events_count = Event.
-      where(id: User.find(current_user.id).
-      event_follows.pluck(:event_id)).
-      pluck(:home_team).select{|slug| slug == @performer.slug}.count
-    all_home_events_followed = current_user ? followed_home_events_count==total_home_events : false
+    all_home_events_followed = false
+    if current_user
+      total_home_events = @events
+        .map{|event| event['home_team']}
+        .select{|slug| slug == @performer.slug}.count
+      followed_home_events_count = Event.
+        where(id: User.find(current_user.id).
+        event_follows.pluck(:event_id)).
+        pluck(:home_team).select{|slug| slug == @performer.slug}.count
+      all_home_events_followed = current_user ? followed_home_events_count==total_home_events : false
+    end
     render component: 'PerformerEvents', props: {
       all_home_events_followed: all_home_events_followed,
       events: @events.order("event_time_utc ASC").as_json(include: :venue),
