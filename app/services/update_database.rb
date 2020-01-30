@@ -113,7 +113,7 @@ class UpdateDatabase
           :venue => Venue.find_by(venue_number: venue_data[:venue_number])
         )
       event[:performers].each do |performer|
-        current_event.performers << Performer.find_by(performer_number: performer[:id]) 
+        EventPerformer.find_or_create_by(event_id: event.id, performer_id: performer.id)
       end
     end
   end

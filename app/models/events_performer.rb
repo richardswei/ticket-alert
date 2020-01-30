@@ -1,0 +1,2 @@
+class EventsPerformer < ApplicationRecord
+end
