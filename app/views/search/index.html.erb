@@ -1,8 +1,7 @@
 <body>
+  <%= "Search results for: #{@q}" %>
   <h2>Performers</h2>
-  <%= react_component("PerformerList", 
-    {performers: @performers_results}) 
-  %>
+  <%= react_component("PerformerList", {performers: @performers_results}) %>
   <h2>Events</h2>
-  
+  <%= react_component("EventList", {events: @events_results}) %>
 </body>

@@ -1,8 +1,9 @@
 import React from "react"
 // import PropTypes from "prop-types"
+import EventList from './EventList'
 import TeamHeader from './TeamHeader'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import {Button,Image} from 'react-bootstrap'
+import {ButtonToolbar, Button,Image} from 'react-bootstrap'
 
 function getLocalTime(dateTime) {
   const d = new Date(dateTime);
@@ -57,57 +58,39 @@ class PerformerEvents extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const performer = this.props.performer
-    const events = this.props.events
+    const events = this.state.homeOnly ? 
+      this.props.events.filter((event) => event.home_team==performer.slug) :
+        this.props.events
+    const followOn = this.state.all_home_events_followed
     return (
       <React.Fragment>
         <TeamHeader
           header= {`Upcoming Events for the ${performer.name}`}
           slug= {performer.slug}
         ></TeamHeader>
-        <BootstrapSwitchButton
-            checked={this.state.homeOnly}
-            width={200}
-            onlabel='Home Events'
-            offlabel='All Events'
-            onChange={(checked) => {
+        <ButtonToolbar>
+          <BootstrapSwitchButton
+              checked={this.state.homeOnly}
+              width={200}
+              onlabel='Home Events'
+              offlabel='All Events'
+              offstyle='warning'
+              onChange={(checked) => {
                 this.setState({ homeOnly: checked })
-            }}
-        />
-        <Button variant="info" onClick = {this.handleClick}>
-          {this.state.all_home_events_followed ?
-            "Unfollow all events" :
-              "Follow all home events!"}
-        </Button>
-        { 
-          events.map((event) => {
-            if (event.home_team == performer.slug || !this.state.homeOnly) {
-              return <EventRow
-                name={event.name}
-                id={event.id}
-                performerId={performer.id}
-                key={event.id}
-                price={event.price_curr}
-                time={event.event_time_utc}
-                homeTeam={event.home_team}
-                venue={event.venue}
-              />
-            }
-          })
-        }
+              }}
+          />
+          <Button variant={followOn ? "outline-danger" : "outline-info" } onClick = {this.handleClick}>
+            {followOn ?
+              "Unfollow ALL events for this team" :
+                "Follow all home events!"}
+          </Button>
+        </ButtonToolbar>
+        <EventList events={events}/>
       </React.Fragment>
     );
   }
-}
-
-const EventRow = (props) => {
-  return ( <div>
-      <strong>{`${getLocalTime(props.time)}`}</strong>
-      <div>{props.name}</div>
-      <a href={`/performers/${props.performerId}/events/${props.id}`}>Starting at ${props.price}</a>
-    </div>
-  )
 }
 
 

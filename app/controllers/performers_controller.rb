@@ -8,6 +8,7 @@ class PerformersController < ApplicationController
     @performer = Performer.find(params[:id])
     @events = @performer.events.all.distinct
     all_home_events_followed = false
+    # determine status of follow events status
     if current_user
       total_home_events = @events
         .map{|event| event['home_team']}
@@ -20,7 +21,8 @@ class PerformersController < ApplicationController
     end
     render component: 'PerformerEvents', props: {
       all_home_events_followed: all_home_events_followed,
-      events: @events.order("event_time_utc ASC").as_json(include: :venue),
+      events: @events.order("event_time_utc ASC").
+        as_json(include: [:venue, :performers => {:only=> [:id,:slug]}]),
       performer: @performer,
       checked: false,
       csrf: form_authenticity_token,

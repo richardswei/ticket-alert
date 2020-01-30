@@ -36,7 +36,6 @@ class MainNavbar extends React.Component {
           <Nav>
            <Form onSubmit={this.handleSubmit} inline>
              <FormControl onChange={this.handleChange} type="text" placeholder="Search" className="mr-sm-2" />
-             <Button variant="outline-info">Search</Button>
            </Form>
             {this.props.userSignedIn ? <NavDropdown title="Account" id="basic-nav-dropdown">
               <NavDropdown.Item href="/users/my_profile">Profile</NavDropdown.Item>
