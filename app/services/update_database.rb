@@ -123,20 +123,27 @@ class UpdateDatabase
     def update_prices(api_response)
       current_time = Time.now
       api_response.each do |event|
-        new_price = event[:stats][:lowest_sg_base_price]
         # by default, price has not dropped 
         price_dropped = false
+        new_price = event[:stats][:lowest_sg_base_price]
+
+        # there may not be a selling ticket
+        return if new_price.nil? 
         # populate event
         current_event = Event.find_by(event_number: event[:id])  
         return if current_event.nil?
-        if new_price<current_event[:last_240_prices].last[:price]
+        price_list = current_event[:last_240_prices]
+        if price_list.length>0 
+          if new_price<price_list.last["price"]
           price_dropped = true
+          end
         end
+
         current_price_hash = {
           price: new_price,
           time: current_time
         }
-        updated_last_240 = current_event[:last_240_prices].push(current_price_hash)
+        updated_last_240 = price_list.push(current_price_hash)
         if updated_last_240.length>240
           updated_last_240.shift()
         end
