@@ -8,10 +8,8 @@ class CreatePerformers < ActiveRecord::Migration[5.2]
       t.string :slug, default: ""
       t.integer :performer_number
       t.integer :home_venue_number
-
     end
-   
     add_index :performers, :performer_number, unique: true
-
+    add_index :performers, :name, unique: true
   end
 end

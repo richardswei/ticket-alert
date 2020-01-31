@@ -44,9 +44,8 @@ class UpdateDatabase
           :short_title => event[:short_title],
           :lowest_price => event[:stats][:lowest_sg_base_price],
           :event_time_utc => event[:datetime_utc],
-          :expiration_time => event[:visible_until_utc],
           :performers => event[:performers].map { |team|
-            team.slice(:slug, :name, :id, :home_venue_id, :url) 
+            team.slice(:id, :slug, :name, :home_venue_id, :url, :divisions, :colors) 
           },
           :url => event[:url],
           :home_team => get_home_team(event)
@@ -88,7 +87,7 @@ class UpdateDatabase
     end
 
     def delete_expired_events
-      Event.where("expiration_time < ?", 0.days.ago).destroy_all
+      Event.where("event_time_utc < ?", 1.days.ago).destroy_all
     end
 
     def populate_events(api_response)
@@ -101,7 +100,9 @@ class UpdateDatabase
               :slug => performer[:slug],
               :name => performer[:name],
               :home_venue_number => performer[:home_venue_id],
-              :url => performer[:url]
+              :url => performer[:url],
+              :division => performer[:divisions].collect{|item| item.display_name},
+              :colors => performer[:colors["primary"]],
             )
         end
 
@@ -113,7 +114,7 @@ class UpdateDatabase
           :home_team => event[:home_team],
           :price_curr => event[:lowest_price],
           :event_time_utc => DateTime.parse(event[:event_time_utc]),
-          :expiration_time => DateTime.parse(event[:expiration_time]),
+          :taxonomy => event[:type],
         )
         # for each performer in the api_response, find/build the association
         event[:performers].each do |performer|

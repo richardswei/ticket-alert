@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_034413) do
+ActiveRecord::Schema.define(version: 2020_01_31_035653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,15 +57,13 @@ ActiveRecord::Schema.define(version: 2020_01_31_034413) do
     t.integer "event_number"
     t.integer "venue_number"
     t.integer "price_curr", default: 0
-    t.datetime "expiration_time"
     t.datetime "event_time_utc"
     t.string "price_t30", default: [], array: true
-    t.bigint "venue_id"
     t.integer "last_price"
     t.string "home_team"
     t.string "taxonomy"
+    t.datetime "local_start_time"
     t.index ["event_number"], name: "index_events_on_event_number", unique: true
-    t.index ["venue_id"], name: "index_events_on_venue_id"
   end
 
   create_table "events_performers", id: false, force: :cascade do |t|
@@ -85,6 +83,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_034413) do
     t.integer "home_venue_number"
     t.string "taxonomy"
     t.string "division"
+    t.string "colors", default: [], array: true
     t.index ["performer_number"], name: "index_performers_on_performer_number", unique: true
   end
 
