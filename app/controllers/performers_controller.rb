@@ -22,7 +22,7 @@ class PerformersController < ApplicationController
     render component: 'PerformerEvents', props: {
       all_home_events_followed: all_home_events_followed,
       events: @events.order("event_time_utc ASC").
-        as_json(include: [:venue, :performers => {:only=> [:id,:slug]}]),
+        as_json(include: [:performers => {:only=> [:id,:slug]}]),
       performer: @performer,
       checked: false,
       csrf: form_authenticity_token,

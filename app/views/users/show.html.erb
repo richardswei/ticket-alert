@@ -6,7 +6,7 @@
     <% event = event_follow.event %>
     <tr>
       <td>
-        <%=event.event_time_utc.in_time_zone(event.venue.timezone).strftime('%m/%d/%y %I:%M %p %Z') %>
+        <%=event.local_start_time.strftime('%m/%d/%y %I:%M %p %Z') %>
       </td>
       <td>
         <%= link_to "#{event.name}", event.url %>

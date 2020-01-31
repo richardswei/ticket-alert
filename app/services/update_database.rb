@@ -45,8 +45,9 @@ class UpdateDatabase
           :lowest_price => event[:stats][:lowest_sg_base_price],
           :event_time_utc => event[:datetime_utc],
           :expiration_time => event[:visible_until_utc],
-          :performers => event[:performers].map{|x| x.slice(:slug, :name, :id, :home_venue_id, :url)},
-          :venue => event[:venue].slice(:timezone, :slug, :name, :url, :id, :city, :state, :postal_code, :address),
+          :performers => event[:performers].map { |team|
+            team.slice(:slug, :name, :id, :home_venue_id, :url) 
+          },
           :url => event[:url],
           :home_team => get_home_team(event)
         }
@@ -104,14 +105,6 @@ class UpdateDatabase
             )
         end
 
-        # populate venues
-        venue_data = event[:venue]
-        venue_data[:venue_number] = venue_data.delete :id
-        Venue.where(venue_number: venue_data[:venue_number]).
-          first_or_initialize.update_attributes!(
-            venue_data
-          )
-
         # populate event
         current_event = Event.where(event_number: event[:id]).first_or_initialize
         current_event.update_attributes!(
@@ -121,8 +114,6 @@ class UpdateDatabase
           :price_curr => event[:lowest_price],
           :event_time_utc => DateTime.parse(event[:event_time_utc]),
           :expiration_time => DateTime.parse(event[:expiration_time]),
-          # :venue_number => event[:venue][:id],
-          :venue => Venue.find_by(venue_number: venue_data[:venue_number])
         )
         # for each performer in the api_response, find/build the association
         event[:performers].each do |performer|

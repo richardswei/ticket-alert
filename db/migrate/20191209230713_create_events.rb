@@ -6,7 +6,6 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.string :name, default: ""
       t.string :url, default: ""
       t.integer :event_number
-      t.integer :venue_number
       t.integer :price_curr, default: 0
       t.datetime :expiration_time
       t.datetime :event_time_utc

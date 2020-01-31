@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_16_050451) do
+ActiveRecord::Schema.define(version: 2020_01_31_034413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_050451) do
     t.bigint "venue_id"
     t.integer "last_price"
     t.string "home_team"
+    t.string "taxonomy"
     t.index ["event_number"], name: "index_events_on_event_number", unique: true
     t.index ["venue_id"], name: "index_events_on_venue_id"
   end
@@ -82,6 +83,8 @@ ActiveRecord::Schema.define(version: 2020_01_16_050451) do
     t.string "slug", default: ""
     t.integer "performer_number"
     t.integer "home_venue_number"
+    t.string "taxonomy"
+    t.string "division"
     t.index ["performer_number"], name: "index_performers_on_performer_number", unique: true
   end
 

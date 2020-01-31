@@ -6,7 +6,7 @@ class SearchController < ApplicationController
     @events_search = Event.ransack(name_cont: @q)
     @performers_results = @performers_search.result
     @events_results = @events_search.result.order("event_time_utc ASC").
-        as_json(include: [:venue, :performers => {:only=> [:id,:slug]}])
+        as_json(include: [:performers => {:only=> [:id,:slug]}])
   end
 
 end

@@ -4,16 +4,12 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hi, <%= @user.email %></h1>
+    <h1>Hi, <%= @user.username %></h1>
     <p>Some games have dropped in price</p>
     <table>
       <% @events.each do |x| %>
         <tr>
-          <% p x %>
-          <% Time.use_zone(x["venue"]["timezone"]) do
-            event_local_time = x["event_time_utc"].in_time_zone
-          %>
-            <%= link_to "#{x["name"]} on #{event_local_time.strftime("%m/%d/%y")}", x["url"], :target => "_blank" %>
+            <%= link_to "#{x["name"]} on #{x["local_start_time"].strftime("%m/%d/%y")}", x["url"], :target => "_blank" %>
             <span> <%= "was $#{x["last_price"]} and is now $#{x["price_curr"]}" %></span>
           <%end %>
         </tr>
