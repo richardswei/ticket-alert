@@ -11,4 +11,9 @@ task :update_events => :environment do
   puts "Events Updated!"
 end
 
+task :populate_database => :environment do
+  puts "Populating Database."
+  UpdateDatabase.new.populate_database
+  puts "Database Populated!"
+end
 
