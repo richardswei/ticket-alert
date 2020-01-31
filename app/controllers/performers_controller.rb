@@ -6,7 +6,7 @@ class PerformersController < ApplicationController
 
   def show
     @performer = Performer.find(params[:id])
-    @events = @performer.events.all.distinct
+    @events = @performer.events.all
     all_home_events_followed = false
     # determine status of follow events status
     if current_user

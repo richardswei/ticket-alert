@@ -23,8 +23,8 @@ function performerSort(performers) {
 class PerformerList extends React.Component {
   render () {
     const performers = performerSort(this.props.performers)
-    return (
-      <React.Fragment>
+    if (performers.length>0) {
+      return ( <React.Fragment>
         <Container fluid>
           <Row className="performer-list">
             {performers.map((item) => (
@@ -43,8 +43,12 @@ class PerformerList extends React.Component {
             ))}
           </Row>
         </Container>
-      </React.Fragment>
-    );
+      </React.Fragment> )
+    } else {
+      return ( <React.Fragment>
+        <strong>No matching performers</strong>
+      </React.Fragment> )
+    }
   }
 }
 

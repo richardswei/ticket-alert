@@ -8,23 +8,22 @@ import Col from 'react-bootstrap/Col'
 
 class TeamHeader extends React.Component {
   render () {
+
     return (
       <React.Fragment>
-        <Jumbotron>
-          <Container fluid>
-            <Row className="team-header">
-              <Col>
-                <Image className="team-logo" 
-                  src={`/logos/${this.props.slug}.svg`} 
-                  ref={img => this.img = img} 
-                  onError={() => this.img.src = '/no-image-found.svg' }/>
-              </Col>
-            </Row>
-            <Row className="team-header">
-              <h2>{this.props.header}</h2>
-            </Row>
-          </Container>
-        </Jumbotron>
+        <Container fluid>
+          <Row >
+            <Col>
+              <Image className="image-fill-space" 
+                src={`/logos/${this.props.slug}.svg`} 
+                ref={img => this.img = img} 
+                onError={() => this.img.src = '/no-image-found.svg' }/>
+            </Col>
+            <Col className="team-header">
+              <h2>Upcoming Events</h2>
+            </Col>
+          </Row>
+        </Container>
       </React.Fragment>
     );
   }

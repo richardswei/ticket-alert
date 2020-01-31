@@ -35,27 +35,14 @@ class UpdateDatabase
       results_per_page = 50
       response = HTTParty.get(url_helper(taxonomy_to_update, results_per_page, pageNumber, get_client_id),format: :plain)
       parsed_json = JSON.parse(response.body, symbolize_names: true)
-      metadata = parsed_json[:meta]
       events_list = parsed_json[:events]
-      events_data = events_list.map do |event|
-        {
-          :id => event[:id],
-          :title => event[:title],
-          :short_title => event[:short_title],
-          :lowest_price => event[:stats][:lowest_sg_base_price],
-          :event_time_utc => event[:datetime_utc],
-          :performers => event[:performers].map { |team|
-            team.slice(:id, :slug, :name, :home_venue_id, :url, :divisions, :colors) 
-          },
-          :url => event[:url],
-          :home_team => get_home_team(event)
-        }
-      end
-      total_results = metadata[:total]
-      pageNumber = metadata[:page]
       # yield to block where do can do database stuff
       # yield(events_data)
-      block.call(events_data)
+      block.call(events_list)
+
+      metadata = parsed_json[:meta]
+      total_results = metadata[:total]
+      pageNumber = metadata[:page]
       total_api_calls = (total_results/(results_per_page.to_f)).ceil
       p "Updated database with API call #{pageNumber} of #{total_api_calls}"
       if (pageNumber>=total_api_calls)
@@ -71,8 +58,8 @@ class UpdateDatabase
       home_team = event[:performers].find {|team| team[:home_team]}
       if home_team.nil?
         lowercase_name = event[:title].downcase.split(' at ')[1]
-        home_team_slug = 
-          lowercase_name.nil? ? "none" : lowercase_name.gsub(' ','-')
+        home_team_slug = lowercase_name.nil? ?
+          "none" : lowercase_name.gsub(' ','-')
       else 
         home_team_slug = home_team[:slug]
       end
@@ -94,15 +81,23 @@ class UpdateDatabase
       api_response.each do |event|
         # populate performers
         performers_data = event[:performers]
+        # create a set of performer_number checked in this call
+        performers_set = Set.new([])
         performers_data.each do |performer|
+          if performers_set.add?(performer[:id]).nil?
+            next
+          end
+          divisions = performer[:divisions]
+          colors = performer[:colors]
           Performer.where(performer_number: performer[:id]).
             first_or_initialize.update_attributes!(
               :slug => performer[:slug],
               :name => performer[:name],
               :home_venue_number => performer[:home_venue_id],
               :url => performer[:url],
-              :division => performer[:divisions].collect{|item| item.display_name},
-              :colors => performer[:colors["primary"]],
+              :division => divisions.nil? ? [nil] : performer[:divisions].collect{|item| item[:display_name]},
+              :colors => colors.nil? ? [nil] : performer[:colors][:primary],
+              :taxonomy => event[:type],
             )
         end
 
@@ -111,9 +106,9 @@ class UpdateDatabase
         current_event.update_attributes!(
           :name => event[:title],
           :url => event[:url],
-          :home_team => event[:home_team],
-          :price_curr => event[:lowest_price],
-          :event_time_utc => DateTime.parse(event[:event_time_utc]),
+          :home_team => get_home_team(event),
+          :event_time_utc => DateTime.parse(event[:datetime_utc]),
+          :local_start_time => event[:datetime_local],
           :taxonomy => event[:type],
         )
         # for each performer in the api_response, find/build the association
@@ -126,22 +121,28 @@ class UpdateDatabase
     end
 
     def update_prices(api_response)
+      current_time = Time.now
       api_response.each do |event|
+        new_price = event[:stats][:lowest_sg_base_price]
+        # by default, price has not dropped 
+        price_dropped = false
         # populate event
         current_event = Event.find_by(event_number: event[:id])  
         return if current_event.nil?
-        current_price = event[:lowest_price]
-
-        updated_last30 = current_event[:price_t30].push(current_price)
-        if updated_last30.length>30
-          updated_last30.shift()
+        if new_price<current_event[:last_240_prices].last[:price]
+          price_dropped = true
+        end
+        current_price_hash = {
+          price: new_price,
+          time: current_time
+        }
+        updated_last_240 = current_event[:last_240_prices].push(current_price_hash)
+        if updated_last_240.length>240
+          updated_last_240.shift()
         end
         current_event.update_attributes!(
-          :price_t30 => updated_last30
-        )
-        current_event.update_attributes!(
-          :price_curr => updated_last30[updated_last30.length-1],
-          :last_price => updated_last30[updated_last30.length-2],
+          :last_240_prices => updated_last_240,
+          :dropped => price_dropped
         )
       end
     end

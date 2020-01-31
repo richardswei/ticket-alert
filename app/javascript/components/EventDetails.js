@@ -74,7 +74,7 @@ class EventDetails extends React.Component {
         <div>
           <a href={event.url} target="_blank">
             <h4>
-              Starting at ${event.price_curr}
+              Starting at ${event.last_240_prices.pop().price}
             </h4>
           </a>
         </div>

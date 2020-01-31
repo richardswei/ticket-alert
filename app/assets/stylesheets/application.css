@@ -18,6 +18,11 @@
   margin-right: 1rem
 }
 
+.image-fill-space{
+  max-height: 100%;
+  max-width: 100%;  
+}
+
 .team-logo {
   max-height: 8rem;
   max-width: 8rem;
@@ -34,9 +39,8 @@
 }
 
 .team-header{
-  text-align: center;
-  align-content: center;
-  justify-content: center;
+  display: flex;
+  align-items: center;
 }
 
 .performer-list .card {

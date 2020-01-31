@@ -5,6 +5,7 @@ function getLocalTime(dateTime) {
   return d; 
 }
 
+
 class EventList extends React.Component {
   constructor(props) {
     super(props);
@@ -12,23 +13,28 @@ class EventList extends React.Component {
 
   render() {
     const events = this.props.events
-    return (
-      <React.Fragment>
+    if (events.length>0) {
+      return ( <React.Fragment>
         <ListGroup>
-          { events.map((event)=> (
-            <ListGroup.Item>
-            {console.log(event)}
+          { events && events.map((event)=> {
+            const price_list = event.last_240_prices
+            return (<ListGroup.Item key={event.id}>
               <div>
                 <strong>{`${getLocalTime(event.event_time_utc)}`}</strong>
                 <div>{event.name}</div>
-                <a href={`/performers/${event.performers[0].id}/events/${event.id}`}>Starting at ${event.price_curr}</a>
+                <a href={`/performers/${event.performers[0].id}/events/${event.id}`}>
+                  {price_list ? `Starting at $${price_list[price_list.length-1].price}` : ''}
+                </a>
               </div>
-            </ListGroup.Item>
-            ))
-          }
+            </ListGroup.Item>)
+          })}
         </ListGroup>
-      </React.Fragment>
-    )
+      </React.Fragment>)
+    } else {
+      return ( <React.Fragment>
+        <strong>No matching events</strong>
+      </React.Fragment> )
+    }
   }
 }
 export default EventList

@@ -15,7 +15,7 @@ class SendEmail
   end
 
   def filter_discounted_events(events)
-    events.where('price_curr < last_price').distinct
+    events.where({dropped:true}).distinct
   end
 
 end

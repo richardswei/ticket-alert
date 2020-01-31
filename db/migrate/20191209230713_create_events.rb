@@ -6,9 +6,8 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.string :name, default: ""
       t.string :url, default: ""
       t.integer :event_number
-      t.integer :price_curr, default: 0
       t.datetime :event_time_utc
-      t.string :price_t30, array: true, default: []
+      t.json :last_240_prices, default: []
     end
     add_index :events, :event_number, unique: true
     add_index :events, :name

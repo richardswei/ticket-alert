@@ -9,12 +9,10 @@
     <table>
       <% @events.each do |x| %>
         <tr>
-            <%= link_to "#{x["name"]} on #{x["local_start_time"].strftime("%m/%d/%y")}", x["url"], :target => "_blank" %>
-            <span> <%= "was $#{x["last_price"]} and is now $#{x["price_curr"]}" %></span>
-          <%end %>
+          <%= link_to "#{x["name"]} on #{x["local_start_time"].strftime("%m/%d/%y")}", x["url"], :target => "_blank" %>
+          <span><%= "was $#{x["last_240_prices"].second_to_last.price} and is now $#{x["last_240_prices"].last.price}" %></span>
         </tr>
       <% end %>
     </table>
   </body>
 </html>
-

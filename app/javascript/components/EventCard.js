@@ -12,13 +12,21 @@ class EventCard extends React.Component {
         <Card.Header>
           <Row>
             <Col md={{span: 4, offset: 1 }}>
-              <Image className="team-logo" src={`/logos/${this.props.awayTeam}.svg`} rounded />
+              <Image 
+                className="team-logo" 
+                src={`/logos/${this.props.awayTeam}.svg`} 
+                rounded 
+              />
             </Col>
             <Col md={2}>
               <div>@</div>
             </Col>
             <Col md={4}>
-              <Image className="team-logo" src={`/logos/${this.props.homeTeam}.svg`} rounded />
+              <Image 
+                className="team-logo" 
+                src={`/logos/${this.props.homeTeam}.svg`} 
+                rounded 
+              />
             </Col>
           </Row>
         </Card.Header>

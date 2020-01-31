@@ -7,11 +7,9 @@ ActiveAdmin.register Event do
     column :name
     column :url
     column :event_number
-    column :price_curr
     column :expiration_time
     column :event_time_utc
-    column :last_price
-    column :price_t30
+    column :last_240_prices
     column :home_team
 
     actions
@@ -20,7 +18,6 @@ ActiveAdmin.register Event do
   filter :name
   filter :url
   filter :event_number
-  filter :price_curr
   filter :event_time_utc
   
 end

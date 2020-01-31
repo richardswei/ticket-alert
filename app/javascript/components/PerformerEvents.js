@@ -60,14 +60,15 @@ class PerformerEvents extends React.Component {
 
   render() {
     const performer = this.props.performer
+    const all_events = this.props.events
     const events = this.state.homeOnly ? 
-      this.props.events.filter((event) => event.home_team==performer.slug) :
-        this.props.events
+      all_events.filter((event) => event.home_team==performer.slug) :
+        all_events
     const followOn = this.state.all_home_events_followed
     return (
       <React.Fragment>
         <TeamHeader
-          header= {`Upcoming Events for the ${performer.name}`}
+          header= {performer.name}
           slug= {performer.slug}
         ></TeamHeader>
         <ButtonToolbar>

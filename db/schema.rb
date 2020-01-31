@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_035653) do
+ActiveRecord::Schema.define(version: 2020_01_31_094516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,15 +55,14 @@ ActiveRecord::Schema.define(version: 2020_01_31_035653) do
     t.string "name", default: ""
     t.string "url", default: ""
     t.integer "event_number"
-    t.integer "venue_number"
-    t.integer "price_curr", default: 0
     t.datetime "event_time_utc"
-    t.string "price_t30", default: [], array: true
-    t.integer "last_price"
+    t.json "last_240_prices", default: []
     t.string "home_team"
     t.string "taxonomy"
     t.datetime "local_start_time"
+    t.boolean "dropped", default: false
     t.index ["event_number"], name: "index_events_on_event_number", unique: true
+    t.index ["name"], name: "index_events_on_name"
   end
 
   create_table "events_performers", id: false, force: :cascade do |t|
@@ -82,8 +81,9 @@ ActiveRecord::Schema.define(version: 2020_01_31_035653) do
     t.integer "performer_number"
     t.integer "home_venue_number"
     t.string "taxonomy"
-    t.string "division"
+    t.string "division", default: [], array: true
     t.string "colors", default: [], array: true
+    t.index ["name"], name: "index_performers_on_name", unique: true
     t.index ["performer_number"], name: "index_performers_on_performer_number", unique: true
   end
 
@@ -104,21 +104,6 @@ ActiveRecord::Schema.define(version: 2020_01_31_035653) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
-  end
-
-  create_table "venues", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "slug"
-    t.string "name"
-    t.string "url"
-    t.string "address"
-    t.string "city"
-    t.string "state"
-    t.string "timezone"
-    t.integer "postal_code"
-    t.integer "venue_number"
-    t.index ["venue_number"], name: "index_venues_on_venue_number", unique: true
   end
 
 end
