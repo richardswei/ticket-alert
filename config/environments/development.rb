@@ -59,6 +59,10 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # Taxonomies to allow - limit dev to just 2 taxonomies
+  config.taxonomies_allowed = ['nhl', 'nba']
+
+
   # default URL for devise mailer
     config.action_mailer.default_url_options = { :host => 'localhost:3000', protocol: 'http' }
     config.action_mailer.perform_deliveries = true
@@ -69,7 +73,7 @@ Rails.application.configure do
         port:                  587,
         domain:               'gmail.com',
         user_name:            'pricealertbyrichard@gmail.com',
-        password:             ENV.fetch("PRICE_ALERT_PASS"),
+        password:             ENV.fetch("PRICE_ALERT_EMAIL_PASS"),
         authentication:       'plain',
         enable_starttls_auto: true,
     }

@@ -89,6 +89,9 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  # Taxonomies to allow
+  config.taxonomies_allowed = ['nhl', 'nba', 'mlb', 'nfl']
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   # default URL for devise mailer
