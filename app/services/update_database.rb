@@ -32,8 +32,10 @@ class UpdateDatabase
 
   private
     def get_api_response(taxonomy_to_update, block, pageNumber=1)
+      d = Date.today
+      date_string = (d+150).to_s
       results_per_page = 50
-      response = HTTParty.get(url_helper(taxonomy_to_update, results_per_page, pageNumber, get_client_id),format: :plain)
+      response = HTTParty.get(url_helper(taxonomy_to_update, results_per_page, pageNumber, get_client_id, date_string),format: :plain)
       parsed_json = JSON.parse(response.body, symbolize_names: true)
       events_list = parsed_json[:events]
       # yield to block where do can do database stuff
@@ -149,8 +151,8 @@ class UpdateDatabase
       end
     end
     
-    def url_helper(taxonomy_to_update, results_per_page, pageNumber, client_id)
-      "https://api.seatgeek.com/2/events?taxonomies.name=#{taxonomy_to_update}&per_page=#{results_per_page}&page=#{pageNumber}&client_id=#{client_id}"
+    def url_helper(taxonomy_to_update, results_per_page, pageNumber, client_id, date_limit)
+      "https://api.seatgeek.com/2/events?taxonomies.name=#{taxonomy_to_update}&per_page=#{results_per_page}&page=#{pageNumber}&client_id=#{client_id}&datetime_utc.lt=#{date_limit}"
     end
 
     def get_client_id
