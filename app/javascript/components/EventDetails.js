@@ -57,8 +57,6 @@ class EventDetails extends React.Component {
   render() {
     const event = this.props.event;
     const startTime = getLocalTime(event.event_time_utc)
-    console.log(event);
-    console.log(startTime);
     return (
       <div>
         <h3>{event.name}</h3>
@@ -66,7 +64,11 @@ class EventDetails extends React.Component {
         <div>
           {this.props.performer_slugs.map((item)=>{
             console.log(`/logos/${item}.svg`)
-            return <Image key={`logo-${item}`} className="team-logo" src={`/logos/${item}.svg`}></Image>
+            return <Image 
+              key={`logo-${item}`} 
+              className="team-logo" 
+              src={`/logos/${item}.svg`}>
+            </Image>
           })}
         </div>
         <div>
@@ -76,10 +78,7 @@ class EventDetails extends React.Component {
             </h4>
           </a>
         </div>
-        <Button
-          variant="info"
-          onClick = {this.handleClick}
-        >
+        <Button variant="info" onClick = {this.handleClick}>
           {this.state.event_followed ?
             "Stop following this event" :
               "Follow this event!"}
