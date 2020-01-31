@@ -18,6 +18,10 @@ Rails.application.routes.draw do
     end
     resources :event_follows, :only => [:create, :destroy]
     resources :performers do
+      get :mlb, on: :collection
+      get :nba, on: :collection
+      get :nfl, on: :collection
+      get :nhl, on: :collection
       post :add_team_follow, on: :member
       delete :delete_team_follow, on: :member
       resources :events do 

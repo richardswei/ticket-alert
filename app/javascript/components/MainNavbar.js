@@ -26,24 +26,29 @@ class MainNavbar extends React.Component {
 
   render () {
     return (
-      <React.Fragment >
-        <Navbar bg="dark" variant="dark">
-          <Navbar.Brand href="/"><h2>Ticket Alert</h2></Navbar.Brand>
+      <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
+        <Navbar.Brand href="/"><h2>Ticket Alert</h2></Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/performers">Performers</Nav.Link>
-            <Nav.Link href="/venues">Venue</Nav.Link>
+            <Nav.Link href="/performers">MLB</Nav.Link>
+            <Nav.Link href="/performers">NBA</Nav.Link>
+            <Nav.Link href="/performers">NFL</Nav.Link>
+            <Nav.Link href="/performers">NHL</Nav.Link>
           </Nav>
           <Nav>
-           <Form onSubmit={this.handleSubmit} inline>
-             <FormControl onChange={this.handleChange} type="text" placeholder="Search" className="mr-sm-2" />
-           </Form>
-            {this.props.userSignedIn ? <NavDropdown title="Account" id="basic-nav-dropdown">
+            <Form onSubmit={this.handleSubmit} inline>
+              <FormControl onChange={this.handleChange} type="text" placeholder="Search" className="mr-sm-2" />
+            </Form>
+          </Nav>
+          <Nav>
+            {this.props.userSignedIn ? <NavDropdown alignRight title="Account" id="basic-nav-dropdown">
               <NavDropdown.Item href="/users/my_profile">Profile</NavDropdown.Item>
               <NavDropdown.Item href="/users/sign_out" data-method="delete">Sign Out</NavDropdown.Item>
             </NavDropdown> : <Nav.Link href="/users/sign_in">Sign In</Nav.Link> }
           </Nav>
-        </Navbar>
-      </React.Fragment>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
 }

@@ -29,9 +29,10 @@ class PerformerList extends React.Component {
           <Row className="performer-list">
             {performers.map((item) => (
               <Col key={`${item.id}`} className="performer-btn" sm={6} md={3} lg={2}>
-                <Card border="light" height="100%">
+                <Card border="light">
                   <a className='inner-card' href={`performers/${item.id}`}>
-                    <Card.Img 
+                    <Card.Img
+                      className="image-fill-space"
                       variant="top" 
                       src={`/logos/${item.slug}.svg`} 
                       ref={img => this.img = img} 

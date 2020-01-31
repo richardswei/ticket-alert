@@ -12,7 +12,7 @@
         <%= link_to "#{event.name}", event.url %>
       </td>
       <td>
-        Starting at $<%=event.price_curr%>    
+        Starting at $<%=event.last_240_prices.last["price"]%>    
       </td>
       <td>
         <%= link_to "Unfollow", event_follow_path(event_follow.id), method: :delete %>  

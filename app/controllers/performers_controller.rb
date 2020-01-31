@@ -30,10 +30,17 @@ class PerformersController < ApplicationController
     }, prerender: false
   end
 
+  def nhl
+    @performers = Performer.where({taxonomy: "nhl"})
+  end
+  def nfl
+    @performers = Performer.where({taxonomy: "nfl"})
+  end
+
   include EventsHelper
   def add_team_follow
     performer = Performer.find(params[:id])
-    events_ids = performer.events.distinct.select{|event| event.home_team==performer.slug}.pluck(:id)
+    events_ids = performer.events.select{|event| event.home_team==performer.slug}.pluck(:id)
     events_to_do = events_ids.count
     events_ids.each_with_index do |id, idx|
       add_follow(id)
@@ -42,7 +49,7 @@ class PerformersController < ApplicationController
   end
 
   def delete_team_follow
-    events_ids = Performer.find(params[:id]).events.distinct.pluck(:id)
+    events_ids = Performer.find(params[:id]).events.pluck(:id)
     events_to_do = events_ids.count
     events_ids.each_with_index do |id, idx|
       delete_follow(id)
