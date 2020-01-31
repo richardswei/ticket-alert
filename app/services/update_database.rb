@@ -123,21 +123,16 @@ class UpdateDatabase
     def update_prices(api_response)
       current_time = Time.now
       api_response.each do |event|
-        # by default, price has not dropped 
-        price_dropped = false
         new_price = event[:stats][:lowest_sg_base_price]
 
-        # there may not be a selling ticket
-        return if new_price.nil? 
         # populate event
         current_event = Event.find_by(event_number: event[:id])  
         return if current_event.nil?
+
+        # there may not be a selling ticket
         price_list = current_event[:last_240_prices]
-        if price_list.length>0 
-          if new_price<price_list.last["price"]
-          price_dropped = true
-          end
-        end
+        #  need to pass 3 conditions to actually allow checking
+        price_dropped = priceDropped(price_list, new_price)
 
         current_price_hash = {
           price: new_price,
@@ -160,6 +155,18 @@ class UpdateDatabase
 
     def get_client_id
       ENV['PRICE_ALERT_PASS']
+    end
+
+    def priceDropped(price_list, new_price)
+      if price_list.length>0
+        if !new_price.nil? && !price_list.last["price"].nil? 
+          if new_price<price_list.last["price"]
+            true
+          else
+            false
+          end
+        end
+      end
     end
 
 end
