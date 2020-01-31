@@ -65,8 +65,8 @@ class EventDetails extends React.Component {
         <div>{startTime.toString()}</div>
         <div>
           {this.props.performer_slugs.map((item)=>{
-            console.log(`/logos/${item}.png`)
-            return <Image key={`logo-${item}`} className="team-logo" src={`/logos/${item}.png`}></Image>
+            console.log(`/logos/${item}.svg`)
+            return <Image key={`logo-${item}`} className="team-logo" src={`/logos/${item}.svg`}></Image>
           })}
         </div>
         <div>

@@ -10,9 +10,9 @@ class PerformerLogo extends React.Component {
         <Image
           // as={Button}
           className="team-logo-sm list-team-logo"
-          src={`/logos/${this.props.slug}.png`} 
+          src={`/logos/${this.props.slug}.svg`} 
           ref={img => this.img = img} 
-          onError={() => this.img.src = '/no-image-found.png' }
+          onError={() => this.img.src = '/no-image-found.svg' }
         />
       </React.Fragment>
     );

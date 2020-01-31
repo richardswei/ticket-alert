@@ -15,9 +15,9 @@ class TeamHeader extends React.Component {
             <Row className="team-header">
               <Col>
                 <Image className="team-logo" 
-                  src={`/logos/${this.props.slug}.png`} 
+                  src={`/logos/${this.props.slug}.svg`} 
                   ref={img => this.img = img} 
-                  onError={() => this.img.src = '/no-image-found.png' }/>
+                  onError={() => this.img.src = '/no-image-found.svg' }/>
               </Col>
             </Row>
             <Row className="team-header">

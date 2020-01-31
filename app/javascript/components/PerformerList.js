@@ -33,9 +33,9 @@ class PerformerList extends React.Component {
                   <a className='inner-card' href={`performers/${item.id}`}>
                     <Card.Img 
                       variant="top" 
-                      src={`/logos/${item.slug}.png`} 
+                      src={`/logos/${item.slug}.svg`} 
                       ref={img => this.img = img} 
-                      onError={() => this.img.src = '/no-image-found.png' } />
+                      onError={() => this.img.src = '/no-image-found.svg' } />
                     <Card.Text className="card-team-name">{item.name}</Card.Text>
                   </a>
                 </Card>
