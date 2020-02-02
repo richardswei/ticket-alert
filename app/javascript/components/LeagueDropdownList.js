@@ -25,23 +25,26 @@ class LeagueDropdownList extends React.Component {
     const conferenceNames = Object.keys(leagueDivisions)
     const performersOrganized = getPerformersInTree(leagueDivisions, performers)
     const divisions = Object.values(performersOrganized).map((conf)=> {return Object.values(conf)})
+   
     return (
       <Container>
         <Row>
           {conferenceNames.map((conf, confIdx)=>{
             return (
               <Col sm={6}>
-                <div className="conference-title">{conf}</div>
+                <strong className="conference-title">{conf}</strong>
                 <Row>
                   {divisions[confIdx].map((division)=>{
-                    return (<Col>
+                     console.log(12/divisions[confIdx].length)
+                    return (<Col sm={12/(divisions[confIdx].length)}>
                       <Row>
                         <div className="division-title">{division.name}</div>
                       </Row>
                         {division.teams.map((team)=> {
                           return (<Row>
-                            <Image 
-                              className="team-logo-md" 
+                            <Image
+                              as={Button}
+                              className="btn-outline-primary team-logo-md" 
                               src={`logos/${team.slug}.svg`}
                               onClick={() => this.handleImageClick(team.id)}
                             />
@@ -62,7 +65,6 @@ class LeagueDropdownList extends React.Component {
 export default LeagueDropdownList
 
 function getPerformersInTree(leagueDivisions, performers) {
-  console.log(performers)
   performers.forEach((performer)=> {
     const conference = performer["division"][0]
     const division = performer["division"][1]
@@ -76,29 +78,29 @@ function getLeague(league) {
     "mlb": {
       "National League": {
         "National League West": {
-          "name": "NL West",
+          "name": "West",
           "teams":[]
         },
         "National League Central": {
-          "name": "NL Central",
+          "name": "Central",
           "teams":[]
         },
         "National League East": {
-          "name": "NL East",
+          "name": "East",
           "teams":[]
         }
       },
       "American League": {
         "American League West": {
-          "name": "AL West",
+          "name": "West",
           "teams":[]
         },
         "American League Central": {
-          "name": "AL Central",
+          "name": "Central",
           "teams":[]
         },
         "American League East": {
-          "name": "AL East",
+          "name": "East",
           "teams":[]
         },
       }

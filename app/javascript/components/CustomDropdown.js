@@ -43,7 +43,6 @@ class CustomDropdown extends Component{
     this.setState(prevState => ({
       listOpen: !prevState.listOpen
     }))
-    console.log(this.state.listOpen)
   }
 
   render(){
