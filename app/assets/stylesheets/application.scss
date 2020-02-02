@@ -12,9 +12,11 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap.min
  */
 
- * {
+
+* {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-box-sizing: border-box;
@@ -52,12 +54,8 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  line-height: 38px;
-  border: 1px solid #dfdfdf;
-  border-radius: 3px;
   cursor: default;
   position: relative;
-  background-color: #fff;
 }
 .dd-header span {
   margin-right: 20px;
@@ -75,7 +73,7 @@
   background: whitesmoke;
   padding: 0.5rem;
   border-radius: .2rem;
-  border: 1px solid lightgray
+  border: 1px solid lightgray;
   -webkit-overflow-scrolling: touch;
   white-space: nowrap;
   width: max-content;

@@ -49,12 +49,12 @@ class CustomDropdown extends Component{
   render(){
     const{listOpen, headerTitle} = this.state
     return(
-      <div className="dd-wrapper">
+      <div className="btn-primary disabled dd-wrapper">
         <div className="dd-header" onClick={() => this.toggleList()}>
           <div className="dd-header-title">{headerTitle}</div>
           {listOpen
-            ? <span>&#9653;</span>
-            : <span>&#9663;</span>
+            ? <span>&#9652;</span>
+            : <span>&#9662;</span>
           }
         </div>
         {listOpen && <div className="dd-list">

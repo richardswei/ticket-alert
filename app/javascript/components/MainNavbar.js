@@ -29,7 +29,7 @@ class MainNavbar extends React.Component {
   render () {
     const all_performers = this.props.performers
     return (
-      <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
+      <Navbar collapseOnSelect expand="md" bg="primary" variant="dark">
         <Navbar.Brand href="/"><h2>Ticket Alert</h2></Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
