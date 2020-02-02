@@ -16,7 +16,6 @@
 // const imagePath = (name) => images(name, true)
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-console.log('Hello World from Webpacker')
 // Support component names relative to this directory:
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");

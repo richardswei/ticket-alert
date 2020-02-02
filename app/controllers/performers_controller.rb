@@ -30,6 +30,12 @@ class PerformersController < ApplicationController
     }, prerender: false
   end
 
+  def mlb
+    @performers = Performer.where({taxonomy: "mlb"})
+  end
+  def nba
+    @performers = Performer.where({taxonomy: "nba"})
+  end
   def nhl
     @performers = Performer.where({taxonomy: "nhl"})
   end

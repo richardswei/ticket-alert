@@ -70,3 +70,4 @@ gem 'whenever'
 # React Rails
 gem 'webpacker'
 gem 'react-rails'
+gem 'bootswatch-rails'
