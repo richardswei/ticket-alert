@@ -90,7 +90,7 @@ class MainNavbar extends React.Component {
           </Nav>
           <Nav>
             {this.props.currentUser ? <NavDropdown alignRight title="Account" id="basic-nav-dropdown">
-              <NavDropdown.Item>{`Currently Signed in as: ${this.props.currentUser}`}</NavDropdown.Item>
+              <NavDropdown.Item>Currently Signed in as: <strong>{this.props.currentUser.username}</strong></NavDropdown.Item>
               <NavDropdown.Divider/>
               <NavDropdown.Item href="/users/my_profile">Profile</NavDropdown.Item>
               <NavDropdown.Item href="/users/sign_out" data-method="delete">Sign Out</NavDropdown.Item>
