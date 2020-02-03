@@ -33,20 +33,19 @@ class LeagueDropdownList extends React.Component {
         <Row>
           {conferenceNames.map((conf, confIdx)=>{
             return (
-              <Col sm={6}>
+              <Col key={conf} sm={6}>
                 <strong className="conference-title">{conf}</strong>
                 <Row>
                   {divisions[confIdx].map((division)=>{
-                     console.log(12/divisions[confIdx].length)
-                    return (<Col sm={12/(divisions[confIdx].length)}>
+                    return (<Col key={division.name} sm={12/(divisions[confIdx].length)}>
                       <Row>
                         <div className="division-title">{division.name}</div>
                       </Row>
                         {division.teams.map((team)=> {
-                          return (<Row>
+                          return (<Row key={team.slug}>
                             <Image
                               as={Button}
-                              className="btn-outline-primary team-logo-md" 
+                              className="btn-outline-secondary team-logo-md" 
                               src={`/logos/${team.slug}.svg`}
                               onClick={() => this.handleImageClick(team.id)}
                             />

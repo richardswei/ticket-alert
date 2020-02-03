@@ -56,14 +56,14 @@ class EventDetails extends React.Component {
 
   render() {
     const event = this.props.event;
-    const startTime = getLocalTime(event.event_time_utc)
+    const current_price = event.last_240_prices.pop();
+    const startTime = getLocalTime(event.event_time_utc);
     return (
       <div>
         <h3>{event.name}</h3>
         <div>{startTime.toString()}</div>
         <div>
           {this.props.performer_slugs.map((item)=>{
-            console.log(`/logos/${item}.svg`)
             return <Image 
               key={`logo-${item}`} 
               className="team-logo" 
@@ -74,7 +74,7 @@ class EventDetails extends React.Component {
         <div>
           <a href={event.url} target="_blank">
             <h4>
-              Starting at ${event.last_240_prices.pop().price}
+              {current_price ? `Starting at $${current_price.price}` : "Currently sold out"}
             </h4>
           </a>
         </div>
