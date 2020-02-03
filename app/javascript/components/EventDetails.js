@@ -2,10 +2,17 @@ import React from "react"
 // import PropTypes from "prop-types"
 import {Button,Image} from 'react-bootstrap'
 
-function getLocalTime(dateTime) {
+function getLocalDate(dateTime) {
   const d = new Date(dateTime);
-  return d; 
+  const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'};
+  return d.toLocaleDateString(undefined, options); 
 }
+function getLocalTime(dateTime, zone=true) {
+  const d = new Date(dateTime);
+  const options = zone ? {hour: 'numeric', minute: 'numeric', timeZoneName: 'short' } : {hour: 'numeric', minute: 'numeric',};
+  return d.toLocaleTimeString(undefined, options); 
+}
+
 
 function addFollow(event_id, csrf_token) {
   fetch(event_id+'/add_individual_follow', {
@@ -57,11 +64,15 @@ class EventDetails extends React.Component {
   render() {
     const event = this.props.event;
     const current_price = event.last_240_prices.pop();
-    const startTime = getLocalTime(event.event_time_utc);
+    const startDate = getLocalDate(event.event_time_utc);
+    const startLocalTime = getLocalTime(event.local_start_time, false);
+    const startTime = getLocalTime(event.event_time_utc, true);
     return (
       <div>
         <h3>{event.name}</h3>
-        <div>{startTime.toString()}</div>
+        <div>{startDate}</div>
+        <div>{startTime}</div>
+        <div>{startLocalTime}</div>
         <div>
           {this.props.performer_slugs.map((item)=>{
             return <Image 

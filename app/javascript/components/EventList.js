@@ -1,8 +1,14 @@
 import React from "react"
 import {ListGroup,Button, Container, Row, Col} from 'react-bootstrap'
+function getLocalDate(dateTime) {
+  const d = new Date(dateTime);
+  const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'};
+  return d.toLocaleDateString(undefined, options); 
+}
 function getLocalTime(dateTime) {
   const d = new Date(dateTime);
-  return d; 
+  const options = {hour: 'numeric', minute: 'numeric', timeZoneName: 'short' };
+  return d.toLocaleTimeString(undefined, options); 
 }
 
 
@@ -24,8 +30,11 @@ class EventList extends React.Component {
             return (<ListGroup.Item key={event.id}>
               <Container>
                 <Row>
+                  <Col md="3">
+                    <div>{`${getLocalDate(event.event_time_utc)}`}</div>
+                    <small>{`${getLocalTime(event.event_time_utc)}`}</small>
+                  </Col>
                   <Col md>
-                    <strong>{`${getLocalTime(event.event_time_utc)}`}</strong>
                     <div>{event.name}</div>
                   </Col>
                   <Col md="3">

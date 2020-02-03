@@ -61,6 +61,7 @@ class PerformerEvents extends React.Component {
   render() {
     const performer = this.props.performer
     const all_events = this.props.events
+    console.log(all_events)
     const events = this.state.homeOnly ? 
       all_events.filter((event) => event.home_team==performer.slug) :
         all_events
