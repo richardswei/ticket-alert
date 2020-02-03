@@ -24,7 +24,9 @@ class LeagueDropdownList extends React.Component {
     const leagueDivisions = getLeague(league);
     const conferenceNames = Object.keys(leagueDivisions)
     const performersOrganized = getPerformersInTree(leagueDivisions, performers)
-    const divisions = Object.values(performersOrganized).map((conf)=> {return Object.values(conf)})
+    const divisions = Object.values(performersOrganized).map((conf)=> {
+      return Object.values(conf)
+    })
    
     return (
       <Container>
@@ -45,7 +47,7 @@ class LeagueDropdownList extends React.Component {
                             <Image
                               as={Button}
                               className="btn-outline-primary team-logo-md" 
-                              src={`logos/${team.slug}.svg`}
+                              src={`/logos/${team.slug}.svg`}
                               onClick={() => this.handleImageClick(team.id)}
                             />
                           </Row>)
