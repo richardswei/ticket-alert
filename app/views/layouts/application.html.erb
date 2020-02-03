@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <% performers = Performer.where.not({home_venue_number: nil})
+    <% performers = Performer.where.not({division: [nil]})
       .as_json(:only => [:taxonomy, :division, :slug, :id]) %>
     <%= react_component("MainNavbar",
       performers: performers,
