@@ -64,14 +64,14 @@ class MainNavbar extends React.Component {
                 </CustomDropdown>
               </Nav.Item>
 
-            <Nav.Item>
-              <CustomDropdown title="NFL">
-                <LeagueDropdownList 
-                  taxonomy="nfl"
-                  performers={all_performers.filter((team)=> {return team["taxonomy"]==="nfl"} )}
-                />
-               </CustomDropdown>
-             </Nav.Item>
+            {/*<Nav.Item> commented out until there is more schedule 
+                          <CustomDropdown title="NFL">
+                            <LeagueDropdownList 
+                              taxonomy="nfl"
+                              performers={all_performers.filter((team)=> {return team["taxonomy"]==="nfl"} )}
+                            />
+                           </CustomDropdown>
+                         </Nav.Item>*/}
             
             <Nav.Item>
               <CustomDropdown title="NHL">

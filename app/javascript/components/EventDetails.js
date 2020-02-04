@@ -2,17 +2,17 @@ import React from "react"
 // import PropTypes from "prop-types"
 import {Button,Image} from 'react-bootstrap'
 
-function getLocalDate(dateTime) {
+function getLocalDate(dateTime, timezone) {
   const d = new Date(dateTime);
-  const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'};
+  const options = { weekday: 'short', year: 'numeric', month: 'short', timeZone: timezone, day: 'numeric'};
   return d.toLocaleDateString(undefined, options); 
 }
-function getLocalTime(dateTime, zone=true) {
+
+function getLocalTime(dateTime, timezone) {
   const d = new Date(dateTime);
-  const options = zone ? {hour: 'numeric', minute: 'numeric', timeZoneName: 'short' } : {hour: 'numeric', minute: 'numeric',};
+  const options = {hour: 'numeric', minute: 'numeric', timeZone: timezone, timeZoneName: 'short' };
   return d.toLocaleTimeString(undefined, options); 
 }
-
 
 function addFollow(event_id, csrf_token) {
   fetch(event_id+'/add_individual_follow', {
@@ -63,16 +63,24 @@ class EventDetails extends React.Component {
 
   render() {
     const event = this.props.event;
-    const current_price = event.last_240_prices.pop();
-    const startDate = getLocalDate(event.event_time_utc);
-    const startLocalTime = getLocalTime(event.local_start_time, false);
-    const startTime = getLocalTime(event.event_time_utc, true);
+    const price_list = event.last_240_prices
+    const current_price = price_list.length===0 ? null : price_list.pop();
+    const clientZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const event_date = getLocalDate(event.event_time_utc, event.timezone)
+    const local_date = (clientZone == event.timezone) ? event_time : getLocalDate(event.event_time_utc, clientZone)
+    const event_time = getLocalTime(event.event_time_utc, event.timezone)
+    const local_time = (clientZone == event.timezone) ? event_time : getLocalTime(event.event_time_utc, clientZone)
     return (
       <div>
         <h3>{event.name}</h3>
-        <div>{startDate}</div>
-        <div>{startTime}</div>
-        <div>{startLocalTime}</div>
+
+        <div>
+          {
+            event_time==local_time ? (<div>{`${event_date}`}<br/><small>{`${event_time}`}</small></div>) :
+              event_date==local_date ? (<div>{`${event_date}`}<br/><small>{`${event_time}`}</small><br/><small>{`${local_time}`}</small></div>) :
+               (<div><small>{`${event_date+"@"+event_time}`}</small><br/><small>{`${local_date+"@"+local_time}`}</small></div>)
+          }
+        </div>
         <div>
           {this.props.performer_slugs.map((item)=>{
             return <Image 
