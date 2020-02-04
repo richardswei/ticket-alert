@@ -6,7 +6,7 @@ class PerformersController < ApplicationController
 
   def show
     @performer = Performer.find(params[:id])
-    @events = @performer.events.all
+    @events = @performer.events.order("event_time_utc ASC")
     all_home_events_followed = false
     # determine status of follow events status
     if current_user
@@ -21,7 +21,7 @@ class PerformersController < ApplicationController
     end
     render component: 'PerformerEvents', props: {
       all_home_events_followed: all_home_events_followed,
-      events: @events.order("event_time_utc ASC").
+      events: @events.
         as_json(include: [:performers => {:only=> [:id,:slug]}]),
       performer: @performer,
       checked: false,

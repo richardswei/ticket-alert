@@ -8,6 +8,10 @@ import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+
 
 class MainNavbar extends React.Component {
   constructor(props) {
@@ -15,6 +19,12 @@ class MainNavbar extends React.Component {
     this.state = { value: '' }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.image_urls.forEach((picture) => {
+      new Image().src = picture
+    });
   }
 
   handleChange(event) {
@@ -31,13 +41,11 @@ class MainNavbar extends React.Component {
     return (
       <Navbar collapseOnSelect expand="md" bg="primary" variant="dark">
         <Navbar.Brand href="/">
-          <div className="application-title">TicketAlert</div>
-          <small>powered by SeatGeek</small>
+          <h2>TicketAlert</h2>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            
             <Nav.Item>
               <CustomDropdown title="MLB">
                 <LeagueDropdownList 
@@ -56,14 +64,14 @@ class MainNavbar extends React.Component {
                 </CustomDropdown>
               </Nav.Item>
 
-            <Nav.Item>
-              <CustomDropdown title="NFL">
-                <LeagueDropdownList 
-                  taxonomy="nfl"
-                  performers={all_performers.filter((team)=> {return team["taxonomy"]==="nfl"} )}
-                />
-               </CustomDropdown>
-             </Nav.Item>
+            {/*<Nav.Item> commented out until there is more schedule 
+                          <CustomDropdown title="NFL">
+                            <LeagueDropdownList 
+                              taxonomy="nfl"
+                              performers={all_performers.filter((team)=> {return team["taxonomy"]==="nfl"} )}
+                            />
+                           </CustomDropdown>
+                         </Nav.Item>*/}
             
             <Nav.Item>
               <CustomDropdown title="NHL">
@@ -81,7 +89,9 @@ class MainNavbar extends React.Component {
             </Form>
           </Nav>
           <Nav>
-            {this.props.userSignedIn ? <NavDropdown alignRight title="Account" id="basic-nav-dropdown">
+            {this.props.currentUser ? <NavDropdown alignRight title="Account" id="basic-nav-dropdown">
+              <NavDropdown.Item>Currently Signed in as: <strong>{this.props.currentUser.username}</strong></NavDropdown.Item>
+              <NavDropdown.Divider/>
               <NavDropdown.Item href="/users/my_profile">Profile</NavDropdown.Item>
               <NavDropdown.Item href="/users/sign_out" data-method="delete">Sign Out</NavDropdown.Item>
             </NavDropdown> : <Nav.Link href="/users/sign_in">Sign In</Nav.Link> }

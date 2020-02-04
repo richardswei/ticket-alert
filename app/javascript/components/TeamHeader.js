@@ -10,7 +10,7 @@ class TeamHeader extends React.Component {
   render () {
 
     return (
-      <React.Fragment>
+      <Jumbotron variant="primary">
         <Container fluid>
           <Row >
             <Col>
@@ -20,11 +20,11 @@ class TeamHeader extends React.Component {
                 onError={() => this.img.src = '/no-image-found.svg' }/>
             </Col>
             <Col className="team-header">
-              <h2>Upcoming Events</h2>
+              <h2 className="display-3">Upcoming Events</h2>
             </Col>
           </Row>
         </Container>
-      </React.Fragment>
+      </Jumbotron>
     );
   }
 }

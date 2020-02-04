@@ -2,9 +2,16 @@ import React from "react"
 // import PropTypes from "prop-types"
 import {Button,Image} from 'react-bootstrap'
 
-function getLocalTime(dateTime) {
+function getLocalDate(dateTime, timezone) {
   const d = new Date(dateTime);
-  return d; 
+  const options = { weekday: 'short', year: 'numeric', month: 'short', timeZone: timezone, day: 'numeric'};
+  return d.toLocaleDateString(undefined, options); 
+}
+
+function getLocalTime(dateTime, timezone) {
+  const d = new Date(dateTime);
+  const options = {hour: 'numeric', minute: 'numeric', timeZone: timezone, timeZoneName: 'short' };
+  return d.toLocaleTimeString(undefined, options); 
 }
 
 function addFollow(event_id, csrf_token) {
@@ -56,14 +63,26 @@ class EventDetails extends React.Component {
 
   render() {
     const event = this.props.event;
-    const startTime = getLocalTime(event.event_time_utc)
+    const price_list = event.last_240_prices
+    const current_price = price_list.length===0 ? null : price_list.pop();
+    const clientZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const event_date = getLocalDate(event.event_time_utc, event.timezone)
+    const local_date = (clientZone == event.timezone) ? event_time : getLocalDate(event.event_time_utc, clientZone)
+    const event_time = getLocalTime(event.event_time_utc, event.timezone)
+    const local_time = (clientZone == event.timezone) ? event_time : getLocalTime(event.event_time_utc, clientZone)
     return (
       <div>
         <h3>{event.name}</h3>
-        <div>{startTime.toString()}</div>
+
+        <div>
+          {
+            event_time==local_time ? (<div>{`${event_date}`}<br/><small>{`${event_time}`}</small></div>) :
+              event_date==local_date ? (<div>{`${event_date}`}<br/><small>{`${event_time}`}</small><br/><small>{`${local_time}`}</small></div>) :
+               (<div><small>{`${event_date+"@"+event_time}`}</small><br/><small>{`${local_date+"@"+local_time}`}</small></div>)
+          }
+        </div>
         <div>
           {this.props.performer_slugs.map((item)=>{
-            console.log(`/logos/${item}.svg`)
             return <Image 
               key={`logo-${item}`} 
               className="team-logo" 
@@ -74,7 +93,7 @@ class EventDetails extends React.Component {
         <div>
           <a href={event.url} target="_blank">
             <h4>
-              Starting at ${event.last_240_prices.pop().price}
+              {current_price ? `Starting at $${current_price.price}` : "Currently sold out"}
             </h4>
           </a>
         </div>

@@ -56,9 +56,13 @@
           justify-content: space-between;
   cursor: default;
   position: relative;
+  opacity: 0.7
 }
 .dd-header span {
   margin-right: 20px;
+}
+.dd-header:hover {
+  opacity: 1
 }
 .dd-header-title {
   margin: 2px 20px;
@@ -149,13 +153,15 @@
   min-width: 3rem;
 }
 
-.team-header{
+.team-header {
   display: flex;
   align-items: center;
+  text-align: right;
 }
 
 .performer-list .card {
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   padding: 0.5rem;
   border: none;
   text-align: center;
@@ -163,7 +169,7 @@
 }
 
 .performer-btn:hover {
-  background: aliceblue;
+  background: lavender;
 }
 
 .performer-btn .inner-card {
@@ -177,4 +183,16 @@
 
 .application-title {
   font-size: 2rem 
+}
+
+.seat-geek-logo {
+  max-height: 5rem
+}
+
+.home-events-btn, .follow-btn {
+  margin-left: 1rem;
+}
+
+.list-group {
+  margin-top:1rem
 }

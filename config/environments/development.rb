@@ -60,7 +60,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Taxonomies to allow - limit dev to just 2 taxonomies
-  config.taxonomies_allowed = ['nhl', 'nba']
+  config.taxonomies_allowed = ['nhl', 'nba', 'mlb', 'nfl']
 
 
   # default URL for devise mailer

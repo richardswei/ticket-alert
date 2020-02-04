@@ -13,12 +13,14 @@
   </head>
 
   <body>
-    <% performers = Performer.where.not({home_venue_number: nil})
+    <% performers = Performer.where.not({division: [nil]})
       .as_json(:only => [:taxonomy, :division, :slug, :id]) %>
     <%= react_component("MainNavbar",
+      image_urls: performers.collect{|performer| "/logos/#{performer["slug"]}.svg"},
       performers: performers,
       crsf_token: form_authenticity_token,
-      userSignedIn: user_signed_in?) %>
+      currentUser: current_user
+      ) %>
     <div class="container">
       <% if (notice) %>
         <%= react_component("Notification", {variant: "success", text: notice} ) %>

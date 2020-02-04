@@ -111,6 +111,7 @@ class UpdateDatabase
           :home_team => get_home_team(event),
           :event_time_utc => DateTime.parse(event[:datetime_utc]),
           :local_start_time => event[:datetime_local],
+          :timezone => event[:venue][:timezone],
           :taxonomy => event[:type],
         )
         # for each performer in the api_response, find/build the association
@@ -135,7 +136,6 @@ class UpdateDatabase
         price_list = current_event[:last_240_prices]
         #  need to pass 3 conditions to actually allow checking
         price_dropped = priceDropped(price_list, new_price)
-
         current_price_hash = {
           price: new_price,
           time: current_time

@@ -61,6 +61,7 @@ class PerformerEvents extends React.Component {
   render() {
     const performer = this.props.performer
     const all_events = this.props.events
+    console.log(all_events)
     const events = this.state.homeOnly ? 
       all_events.filter((event) => event.home_team==performer.slug) :
         all_events
@@ -71,23 +72,26 @@ class PerformerEvents extends React.Component {
           header= {performer.name}
           slug= {performer.slug}
         ></TeamHeader>
-        <ButtonToolbar>
-          <BootstrapSwitchButton
-              checked={this.state.homeOnly}
-              width={200}
-              onlabel='Home Events'
-              offlabel='All Events'
-              offstyle='warning'
-              onChange={(checked) => {
-                this.setState({ homeOnly: checked })
-              }}
-          />
-          <Button variant={followOn ? "outline-danger" : "outline-info" } onClick = {this.handleClick}>
-            {followOn ?
-              "Unfollow ALL events for this team" :
-                "Follow all home events!"}
-          </Button>
-        </ButtonToolbar>
+        <BootstrapSwitchButton
+            className="home-events-btn"
+            checked={this.state.homeOnly}
+            width={200}
+            onlabel='Home Events'
+            offlabel='All Events'
+            offstyle='warning'
+            onChange={(checked) => {
+              this.setState({ homeOnly: checked })
+            }}
+        />
+        <Button 
+          className="follow-btn" 
+          variant={followOn ? "outline-danger" : "outline-primary" } 
+          onClick = {this.handleClick}
+        >
+          {followOn ?
+            "Unfollow ALL events for this team" :
+              "Follow all home events!"}
+        </Button>
         <EventList events={events}/>
       </React.Fragment>
     );
