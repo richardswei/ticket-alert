@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from 'react';
 // import PropTypes from "prop-types"
 import EventList from './EventList'
 import TeamHeader from './TeamHeader'
@@ -34,7 +34,7 @@ function deleteTeamFollow(performer_id, csrf_token) {
   })
 }
 
-class PerformerEvents extends React.Component {
+class PerformerEvents extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);

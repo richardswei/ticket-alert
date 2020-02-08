@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from 'react';
 // import PropTypes from "prop-types"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -20,7 +20,7 @@ function performerSort(performers) {
   })
 }
 
-class PerformerList extends React.Component {
+class PerformerList extends Component {
   render () {
     const performers = performerSort(this.props.performers)
     if (performers.length>0) {

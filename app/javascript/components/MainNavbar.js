@@ -1,4 +1,5 @@
-import React from "react"
+import React, { Component } from 'react';
+
 // import PropTypes from "prop-types"
 import LeagueDropdownList from './LeagueDropdownList'
 import CustomDropdown from './CustomDropdown'
@@ -13,7 +14,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 
-class MainNavbar extends React.Component {
+class MainNavbar extends Component {
   constructor(props) {
     super(props)
     this.state = { value: '' }

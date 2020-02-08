@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from 'react';
 import {ListGroup,Button, Container, Row, Col} from 'react-bootstrap'
 function getLocalDate(dateTime, timezone) {
   const d = new Date(dateTime);
@@ -13,7 +13,7 @@ function getLocalTime(dateTime, timezone) {
 }
 
 
-class EventList extends React.Component {
+class EventList extends Component {
   constructor(props) {
     super(props);
   }
@@ -34,10 +34,10 @@ class EventList extends React.Component {
             return (<ListGroup.Item key={event.id}>
               <Container>
                 <Row>
-                  <Col md="3">
+                  <Col md="4">
                     {
                       event_time==local_time ? (<div>{`${event_date}`}<br/><small>{`${event_time}`}</small></div>) :
-                        event_date==local_date ? (<div>{`${event_date}`}<br/><small>{`${event_time}`}</small><br/><small>{`${local_time}`}</small></div>) :
+                        event_date==local_date ? (<div>{`${event_date}`}<br/><small>{`${event_time}`}</small>/<small>{`${local_time}`}</small></div>) :
                          (<div><small>{`${event_date+"@"+event_time}`}</small><br/><small>{`${local_date+"@"+local_time}`}</small></div>)
                     }
                   </Col>

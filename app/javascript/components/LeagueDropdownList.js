@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from 'react';
 // import PropTypes from "prop-types"
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -9,7 +9,7 @@ import CardGroup from 'react-bootstrap/CardGroup'
 import Card from 'react-bootstrap/Card'
 
 
-class LeagueDropdownList extends React.Component {
+class LeagueDropdownList extends Component {
   constructor(props) {
     super(props)
     // this.state = { value: '' }

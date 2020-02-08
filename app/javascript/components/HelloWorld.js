@@ -1,6 +1,6 @@
-import React from "react"
+import React, { Component } from 'react';
 import PropTypes from "prop-types"
-class HelloWorld extends React.Component {
+class HelloWorld extends Component {
   render () {
     return (
       <React.Fragment>

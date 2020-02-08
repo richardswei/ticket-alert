@@ -1,4 +1,5 @@
-import React from "react"
+import React, { Component } from 'react';
+
 // import PropTypes from "prop-types"
 import {Button,Image} from 'react-bootstrap'
 
@@ -38,7 +39,7 @@ function deleteFollow(event_id, csrf_token) {
   })
 }
 
-class EventDetails extends React.Component {
+class EventDetails extends Component {
   constructor(props) {
     super(props);
 
