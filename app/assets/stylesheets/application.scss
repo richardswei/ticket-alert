@@ -15,6 +15,10 @@
  *= require bootstrap.min
  */
 
+html, body {
+    min-height: 100vw;
+}
+
 
 * {
   -moz-osx-font-smoothing: grayscale;

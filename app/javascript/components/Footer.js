@@ -1,41 +1,14 @@
 import React, { Component } from 'react';
-import { Col, Container, Row, Navbar } from "react-bootstrap";
+import { Col, Container, Row, Navbar, Nav } from "react-bootstrap";
 class Footer extends Component {
   render () {
-    return (<Navbar className="font-small pt-4 mt-4">
-        <Container fluid className="text-center text-md-left">
-          <Row>``
-            <Col md="6">
-              <h5 className="title">Footer Content</h5>
-              <p>
-                Here you can use rows and columns here to organize your footer
-                content.
-              </p>
-            </Col>
-            <Col md="6">
-              <h5 className="title">Links</h5>
-              <ul>
-                <li className="list-unstyled">
-                  <a href="#!">Link 1</a>
-                </li>
-                <li className="list-unstyled">
-                  <a href="#!">Link 2</a>
-                </li>
-                <li className="list-unstyled">
-                  <a href="#!">Link 3</a>
-                </li>
-                <li className="list-unstyled">
-                  <a href="#!">Link 4</a>
-                </li>
-              </ul>
-            </Col>
-          </Row>
-        </Container>
-        <div className="footer-copyright text-center py-3">
-          <Container fluid>
-            &copy; {new Date().getFullYear()} Copyright: <a href="https://www.MDBootstrap.com"> MDBootstrap.com </a>
-          </Container>
-        </div>
+    return (<Navbar sticky="bottom" className="font-small pt-4 mt-4">
+      <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+        <Nav className="mr-auto">
+          <Nav.Link href="#home">Home</Nav.Link>
+          <Nav.Link href="#features">Features</Nav.Link>
+          <Nav.Link href="#pricing">Pricing</Nav.Link>
+        </Nav>
       </Navbar>
     );
   }
