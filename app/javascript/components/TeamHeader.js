@@ -21,7 +21,6 @@ class TeamHeader extends Component {
     })
     rgbColors[0] = rgbColors[0]==rgbColors[1] ? 'aliceblue' : rgbColors[0];
     const jumbotronStyle = {
-      textShadow: "-1px 0 lightgray, 0 1px lightgray, 1px 0 lightgray, 0 -1px lightgray",
       color: 'white',
       backgroundColor: rgbColors[0]==rgbColors[1]? 'white' : rgbColors[0],
       backgroundImage: `-webkit-linear-gradient(30deg, ${rgbColors[0]} 50%, ${rgbColors[1]} 50%)`
@@ -30,14 +29,14 @@ class TeamHeader extends Component {
       <Jumbotron style={jumbotronStyle}>
         <Container fluid>
           <Row >
-            <Col>
-              <Image className="image-fill-space" 
+            <Col sm={12} md={6}>
+              <Image className="drop-shadow image-fill-space" 
                 src={`/logos/${this.props.slug}.svg`} 
                 ref={img => this.img = img} 
                 onError={() => this.img.src = '/no-image-found.svg' }/>
             </Col>
             <Col className="team-header">
-              <h2 className="display-4">Upcoming Events</h2>
+              <div className="team-header-text">Upcoming Events</div>
             </Col>
           </Row>
         </Container>
