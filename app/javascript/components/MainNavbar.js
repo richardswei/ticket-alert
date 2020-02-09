@@ -40,7 +40,7 @@ class MainNavbar extends Component {
   render () {
     const all_performers = this.props.performers
     return (
-      <Navbar collapseOnSelect expand="md" bg="primary" variant="dark">
+      <Navbar collapseOnSelect expand="md" variant="dark" bg="dark">
         <Navbar.Brand href="/">
           <h2>TicketAlert</h2>
         </Navbar.Brand>
@@ -86,7 +86,7 @@ class MainNavbar extends Component {
           </Nav>
           <Nav>
             <Form onSubmit={this.handleSubmit} inline>
-              <FormControl onChange={this.handleChange} type="text" placeholder="Search" className="mr-sm-2" />
+              <FormControl onChange={this.handleChange} type="text" placeholder="Search by team or location" className="mr-sm-2" />
             </Form>
           </Nav>
           <Nav>

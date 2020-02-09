@@ -69,6 +69,7 @@ class PerformerEvents extends Component {
     return (
       <React.Fragment>
         <TeamHeader
+          colors= {performer.colors}
           header= {performer.name}
           slug= {performer.slug}
         ></TeamHeader>
