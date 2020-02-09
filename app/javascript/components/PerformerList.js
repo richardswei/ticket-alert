@@ -30,13 +30,14 @@ class PerformerList extends Component {
             {performers.map((item) => (
               <Col key={`${item.id}`} className="performer-btn" sm={6} md={3} lg={2}>
                 <Card border="light">
-                  <a className='inner-card' href={`performers/${item.id}`}>
+                  <a className='inner-card' href={`/performers/${item.id}`}>
                     <Card.Img
                       className="image-fill-space"
                       variant="top" 
                       src={`/logos/${item.slug}.svg`} 
                       ref={img => this.img = img} 
-                      onError={() => this.img.src = '/no-image-found.svg' } />
+                      // onError={() => this.img.src = '/no-image-found.svg' }
+                    />
                     <Card.Text className="card-team-name">{item.name}</Card.Text>
                   </a>
                 </Card>
