@@ -228,7 +228,8 @@ html, body {
   padding: 1rem;
   background-color: #482879;
   color: white;
-  margin-top: 3rem
+  margin-top: 3rem;
+  display: inline-block
 }
 
 .page-header {
@@ -251,8 +252,12 @@ html, body {
   text-decoration: none
 }
 
-.matchup-at-symbol{
-  margin: auto
+.centered-header{
+  align-items: center;
+  display: grid;
 }
 
+.graph-title{
+  margin: auto
+}
 

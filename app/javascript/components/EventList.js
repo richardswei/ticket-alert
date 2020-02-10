@@ -10,27 +10,16 @@ import {
   Tooltip,
   OverlayTrigger
 } from 'react-bootstrap'
-function getLocalDate(dateTime, timezone) {
-  const d = new Date(dateTime);
-  const options = { weekday: 'short', year: 'numeric', month: 'short', timeZone: timezone, day: 'numeric'};
-  return d.toLocaleDateString(undefined, options); 
-}
-
-function getLocalTime(dateTime, timezone) {
-  const d = new Date(dateTime);
-  const options = {hour: 'numeric', minute: 'numeric', timeZone: timezone, timeZoneName: 'short' };
-  return d.toLocaleTimeString(undefined, options); 
-}
+import LineChart from './LineChart'
+import { getLocalTime, getLocalDate } from '../utils/time';
 
 function getPriceTextFromList(price_list) {
   const current_price = price_list.length===0 ? null : price_list[price_list.length-1].price;
-  const linkText = current_price ? `Starting at $${current_price}` : "Currently sold out"
-  return linkText
+  return current_price ? `Starting at $${current_price}` : "Currently sold out"
 }
 
 function EventDetailsModal(props) {
   const event = props.eventdetails
-  console.log(props.eventdetails)
   return (
     event && <Modal
       {...props}
@@ -45,28 +34,28 @@ function EventDetailsModal(props) {
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <Row>
-            <Col>
+          <Row className="justify-content-md-center">
+            <Col md="4">
               <Image 
                 className="team-logo-modal" 
                 src={`/logos/${event.performers.filter((x)=>x.slug!==event.home_team)[0].slug}.svg`}>
               </Image>
             </Col>
-            <Col xs="auto" className="matchup-at-symbol">
+            <Col xs="auto" className="centered-header">
               <span><h1>@</h1></span>
             </Col>
-            <Col>
+            <Col md="4">
               <Image 
                 className="team-logo-modal" 
                 src={`/logos/${event.home_team}.svg`}>
               </Image>
             </Col>
           </Row>
-          <Row>
-            Coming soon:
+          <Row className="centered-header" >
+            <h4 className = "graph-title">Price Tracker</h4>
           </Row>
           <Row>
-            Visual graph of price history over the last week
+            <LineChart data = {event.daily_prices}/>
           </Row>
         </Container>
       </Modal.Body>
@@ -82,11 +71,9 @@ function EventDetailsModal(props) {
   );
 }
 
-
 function EventList(props) {
   function handleClick(e) {
     e.stopPropagation();
-    console.log('The link was clicked.');
   }
 
   const events = props.events
