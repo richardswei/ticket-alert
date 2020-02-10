@@ -224,3 +224,35 @@ html, body {
   min-height: inherit;
 }
 
+.section-header {
+  padding: 1rem;
+  background-color: #482879;
+  color: white;
+  margin-top: 3rem
+}
+
+.page-header {
+  padding: 1rem;
+  background-color: #17141F;
+  color: white;
+  margin-top: 3rem
+}
+
+.modal-header, .modal-footer{
+  background-color: #17141F;
+  color: white
+}
+
+.modal-header button.close{
+  color:white
+}
+.modal-header button.close:hover{
+  color:inherit;
+  text-decoration: none
+}
+
+.matchup-at-symbol{
+  margin: auto
+}
+
+

@@ -44,22 +44,31 @@ function EventDetailsModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Centered Modal</h4>
-        <div>
-          <Image 
-            className="team-logo-modal" 
-            src={`/logos/${event.performers.filter((x)=>x.slug!==event.home_team)[0].slug}.svg`}>
-          </Image>
-          <span>@</span>
-          <Image 
-            className="team-logo-modal" 
-            src={`/logos/${event.home_team}.svg`}>
-          </Image>
-        </div>
-        <p>
-          Coming soon: <br/>
-          Visual graph of price history over the last week
-        </p>
+        <Container>
+          <Row>
+            <Col>
+              <Image 
+                className="team-logo-modal" 
+                src={`/logos/${event.performers.filter((x)=>x.slug!==event.home_team)[0].slug}.svg`}>
+              </Image>
+            </Col>
+            <Col xs="auto" className="matchup-at-symbol">
+              <span><h1>@</h1></span>
+            </Col>
+            <Col>
+              <Image 
+                className="team-logo-modal" 
+                src={`/logos/${event.home_team}.svg`}>
+              </Image>
+            </Col>
+          </Row>
+          <Row>
+            Coming soon:
+          </Row>
+          <Row>
+            Visual graph of price history over the last week
+          </Row>
+        </Container>
       </Modal.Body>
       <Modal.Footer>
         <Button block 
@@ -68,7 +77,6 @@ function EventDetailsModal(props) {
           href={event.url}>
           {getPriceTextFromList(event.last_240_prices)}
         </Button>
-        <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

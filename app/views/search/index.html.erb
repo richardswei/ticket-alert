@@ -1,9 +1,9 @@
 <body>
-  <h2>
-    <%= "Search results for: #{@q}" %>
-  </h2>
-  <h3>Performers</h3>
+  <h4 class="display-5 page-header">
+    <%= "Search results for: '#{@q}'" %>
+  </h4>
+  <h5 class="section-header">Performers</h5>
   <%= react_component("PerformerList", {performers: @performers_results}) %>
-  <h3>Events</h3>
+  <h5 class="section-header">Events</h5>
   <%= react_component("EventList", {events: @events_results}) %>
 </body>
