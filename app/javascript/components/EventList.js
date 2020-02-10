@@ -29,8 +29,8 @@ function getPriceTextFromList(price_list) {
 }
 
 function EventDetailsModal(props) {
-  console.log(props.eventdetails)
   const event = props.eventdetails
+  console.log(props.eventdetails)
   return (
     event && <Modal
       {...props}
