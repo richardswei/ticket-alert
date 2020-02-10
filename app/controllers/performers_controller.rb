@@ -7,6 +7,9 @@ class PerformersController < ApplicationController
   def show
     @performer = Performer.find(params[:id])
     @events = @performer.events.order("event_time_utc ASC")
+    @followed_events = current_user ? @events.
+      where(id: User.find(current_user.id).
+      event_follows.pluck(:event_id)).pluck(:id) : []
     all_home_events_followed = false
     # determine status of follow events status
     if current_user
@@ -14,6 +17,7 @@ class PerformersController < ApplicationController
     end
     render component: 'PerformerEvents', props: {
       all_home_events_followed: all_home_events_followed,
+      followed_event_ids: @followed_events,
       events: @events.
         as_json(include: [:performers => {:only=> [:id,:slug]}]),
       performer: @performer,

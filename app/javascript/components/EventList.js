@@ -13,6 +13,30 @@ import {
 import LineChart from './LineChart'
 import { getLocalTime, getLocalDate } from '../utils/time';
 
+function addFollow(event_id, csrf_token) {
+  fetch(event_id+'/add_individual_follow', {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    // redirect: 'follow', // manual, *follow, error
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": csrf_token
+    },
+    // body: JSON.stringify({'id': event.id})
+  })
+}
+
+function deleteFollow(event_id, csrf_token) {
+  fetch(event_id+'/delete_individual_follow', {
+    method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+    // redirect: 'follow', // manual, *follow, error
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": csrf_token
+    },
+    // body: JSON.stringify({'id': event.id})
+  })
+}
+
 function getPriceTextFromList(price_list) {
   const current_price = price_list.length===0 ? null : price_list[price_list.length-1].price;
   return current_price ? `Starting at $${current_price}` : "Currently sold out"
@@ -52,7 +76,7 @@ function EventDetailsModal(props) {
             </Col>
           </Row>
           <Row className="centered-header" >
-            <h4 className = "graph-title">Price Tracker</h4>
+            <h4 className="graph-title">Price Tracker</h4>
           </Row>
           <Row>
             <LineChart data = {event.daily_prices}/>
@@ -75,10 +99,26 @@ function EventList(props) {
   function handleClick(e) {
     e.stopPropagation();
   }
-
+  function handleFollow(id, isFollowed, e) {
+    e.stopPropagation();
+    console.log(followedEvents)
+    console.log(isFollowed)
+    console.log(id)
+    // ids = 
+    if (isFollowed) { // remove the id
+      const followList = followedEvents.filter((x)=> x!==id)
+      console.log(followList)
+      setFollowed(followList)
+    } else {
+      const followList = [id, ...followedEvents]
+      setFollowed(followList)
+    }
+  }
+  const followed_event_ids = props.followed_event_ids
   const events = props.events
   const [modalShow, setModalShow] = React.useState(false);
   const [modalEvent, setModalEvent] = React.useState(events[0]);
+  const [followedEvents, setFollowed] = React.useState(followed_event_ids);
   if (events.length>0) {
     return ( <React.Fragment>
       <EventDetailsModal
@@ -95,6 +135,7 @@ function EventList(props) {
           const event_time = getLocalTime(event.event_time_utc, event.timezone)
           const local_time = (clientZone == event.timezone) ? event_time :
             getLocalTime(event.event_time_utc, clientZone)
+          const isFollowed = followedEvents.includes(event.id)
           return (<React.Fragment key={event.id}>
             <ListGroup.Item 
               className="event-list-item" 
@@ -123,13 +164,25 @@ function EventList(props) {
                       <div>{event.name}</div>
                     </Col>
                     <Col md="3">
-                      <Button block 
-                        onClick={handleClick} 
-                        variant="secondary"
-                        target="_blank"
-                        href={event.url}>
-                        {getPriceTextFromList(event.last_240_prices)}
-                      </Button>
+                      <Row>
+                        <Button
+                          event_id={event.id}
+                          onClick={(e) => handleFollow(event.id, isFollowed, e)}
+                          variant="info"
+                        >
+                          {isFollowed ? "Unfollow" : "Follow"}
+                        </Button>
+                      </Row>
+                      <Row>
+                        <Button block 
+                          onClick={handleClick} 
+                          variant="secondary"
+                          target="_blank"
+                          href={event.url}
+                        >
+                          {getPriceTextFromList(event.last_240_prices)}
+                        </Button>
+                      </Row>
                     </Col>
                   </Row>
                 </Container>

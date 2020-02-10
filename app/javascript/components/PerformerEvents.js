@@ -93,7 +93,10 @@ class PerformerEvents extends Component {
             "Unfollow ALL events for this team" :
               "Follow all home events!"}
         </Button>
-        <EventList events={events}/>
+        <EventList 
+          current_user={this.props.current_user}
+          events={events}
+          followed_event_ids={this.props.followed_event_ids}/>
       </React.Fragment>
     );
   }
