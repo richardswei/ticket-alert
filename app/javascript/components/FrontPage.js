@@ -5,6 +5,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import Carousel from 'react-bootstrap/Carousel'
 
 class FrontPage extends Component {
   render () {
@@ -18,37 +19,35 @@ class FrontPage extends Component {
         </Jumbotron>
         <Container>
           <Row>
-            <Col xs={9} md={10}>
-              <Image className="adLink" rounded src="holder.js/100px300?auto=yes&theme=social&text=Big Ad" fluid />
+            <Jumbotron fluid>
+              <h2>NFL</h2>
+            </Jumbotron>
+            <Jumbotron fluid>
+              <h2>MLB</h2>
+            </Jumbotron>
+            <Jumbotron fluid>
+              <h2>NBA</h2>
+            </Jumbotron>
+            <Jumbotron fluid>
+              <h2>NHL</h2>
+            </Jumbotron>
+          </Row>
+          <Row>
+            <Col md={4}>
+              <a href={`/`}>
+                <Image className="adLink"  fluid src="/logos/oakland-athletics.svg"/>
+              </a>
+            </Col>
+            <Col md={4}>
+              <a target="_blank" href={`https://youtu.be/M2XNW1qHN9w`}>
+                <Image className="adLink" fluid src="https://cdn.pixabay.com/photo/2016/10/10/01/49/delete-1727486_960_720.png"/>
+              </a>
+            </Col> 
+            <Col md={4}>
+              <a href={`/`}>
+                <Image className="adLink"  fluid src="https://i.redd.it/xgc23ih4ady31.png"/>
+              </a>
             </Col>  
-            <Col xs={3} md={2}>
-              <Row>
-                <a href={`/performers/${100}`}>
-                  <Image className="adLink"  fluid src="https://i.redd.it/xgc23ih4ady31.png"/>
-                </a>
-              </Row>
-              <Row>
-                <Image className="adLink" rounded src="holder.js/100px150?theme=social" fluid />
-              </Row>
-            </Col>
-          </Row>
-          <Row>
-            <br/>
-          </Row>
-          <Row>
-            <Col xs={9} md={10}>
-              <Image className="adLink" rounded src="holder.js/100px300?auto=yes&theme=social" fluid />
-            </Col>
-            <Col xs={3} md={2}>
-              <Row>
-                <a target="_blank" href={`https://youtu.be/M2XNW1qHN9w`}>
-                  <Image className="adLink" fluid src="https://cdn.pixabay.com/photo/2016/10/10/01/49/delete-1727486_960_720.png"/>
-                </a>
-              </Row>
-              <Row>
-                <Image className="adLink" rounded src="holder.js/100px150?theme=social" fluid />
-              </Row>
-            </Col>
           </Row>
         </Container>
       </React.Fragment>
