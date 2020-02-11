@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Image,
   ListGroup,
@@ -8,10 +8,12 @@ import {
   Row,
   Col,
   Tooltip,
-  OverlayTrigger
+  OverlayTrigger,
+  Overlay,
+  Popover
 } from 'react-bootstrap'
 import { getLocalTime, getLocalDate } from '../utils/time';
-import EventModal from "./EventModal"
+import EventPopover from "./EventPopover"
 
 function getPriceTextFromList(price_list) {
   const current_price = price_list.length===0 ? null : price_list[price_list.length-1].price;
@@ -22,18 +24,37 @@ function EventList(props) {
   function handleClick(e) {
     e.stopPropagation();
   }
+  function handlePopoverClick(id, e) {
+    console.log(popoverId)
+    console.log(id)
+    setShow(id!==popoverId);
+    setPopoverId(id);
+    setTarget(e.target);
+  }
   const followed_event_ids = props.followed_event_ids
   const events = props.events
-  const [modalShow, setModalShow] = React.useState(false);
-  const [modalEvent, setModalEvent] = React.useState(events[0]);
+  const [show, setShow] = useState(false);
+  const [target, setTarget] = useState(null);
+  const [popoverId, setPopoverId] = useState(null);
+  const ref = useRef(null);
+
   if (events.length>0) {
     return ( <React.Fragment>
-      <EventModal
-        event_details ={modalEvent}
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-      <ListGroup>
+      <Overlay
+        show={show}
+        target={target}
+        placement="top"
+        container={ref.current}
+        containerPadding={20}
+      >
+        <Popover id="popover-contained">
+          <Popover.Title as="h3">Popover bottom</Popover.Title>
+          <Popover.Content>
+            <strong>Holy guacamole!</strong> Check this info.
+          </Popover.Content>
+        </Popover>
+      </Overlay>
+      <ListGroup ref={ref}>
         { events && events.map((event_item)=> {
           const clientZone = Intl.DateTimeFormat().resolvedOptions().timeZone
           const event_date = getLocalDate(event_item.event_time_utc, event_item.timezone)
@@ -45,21 +66,9 @@ function EventList(props) {
           const isFollowed = followed_event_ids.includes(event_item.id)
           return (<React.Fragment key={event_item.id}>
             <ListGroup.Item 
-              className="event-list-item" 
-              onClick={() => {
-                setModalEvent(event_item);
-                setModalShow(true)
-              }}
+              className="event-list-item"
+              onClick={(e) => handlePopoverClick(event_item.id, e)}
             >
-              <OverlayTrigger
-                placement="left"
-                delay={500}
-                overlay={
-                  <Tooltip id={`tooltip`}>
-                    click for more info
-                  </Tooltip>
-                }
-              >
                 <Container>
                   <Row>
                     <Col md="4">{
@@ -93,7 +102,6 @@ function EventList(props) {
                     </Col>
                   </Row>
                 </Container>
-              </OverlayTrigger>
             </ListGroup.Item>
            </React.Fragment>
           )

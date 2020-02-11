@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Container, Row, Image, Button } from "react-bootstrap";
+import { Popover, Container, Row, Image, Button } from "react-bootstrap";
 import LineChart from './LineChart'
 
 function getPriceTextFromList(price_list) {
@@ -7,21 +7,18 @@ function getPriceTextFromList(price_list) {
   return current_price ? `Starting at $${current_price}` : "Currently sold out"
 }
 
-class EventModal extends Component {
+class EventPopover extends Component {
   render() {
     // const event_details = this.props.event_details
     return (
-      <Modal
-        show={this.props.show}
-        onHide={this.props.onHide}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        test
-      </Modal>
+      <Popover id="popover-contained">
+        <Popover.Title as="h3">Popover bottom</Popover.Title>
+        <Popover.Content>
+          <strong>Holy guacamole!</strong> Check this info.
+        </Popover.Content>
+      </Popover>
     );
   }
 }
 
-export default EventModal
+export default EventPopover
