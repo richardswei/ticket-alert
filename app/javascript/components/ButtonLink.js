@@ -1,8 +1,8 @@
-import React from "react"
+import React, { Component } from 'react';
 // import PropTypes from "prop-types"
 import Button from 'react-bootstrap/Button'
 
-class ButtonLink extends React.Component {
+class ButtonLink extends Component {
   render () {
     return (
       <React.Fragment>

@@ -1,12 +1,12 @@
-import React from "react"
+import React, { Component } from 'react';
 import Jumbotron from "react-bootstrap/Jumbotron"
 
-class JumbotronPageHeader extends React.Component {
+class JumbotronPageHeader extends Component {
   render () {
     return (
-      <Jumbotron>
-        <h1>{this.props.header}</h1>
-        <p>{this.props.text}</p>
+      <Jumbotron fluid>
+        <h2 className="display-4">{this.props.header}</h2>
+        <p className="lead">{this.props.text}</p>
       </Jumbotron>
     );
   }

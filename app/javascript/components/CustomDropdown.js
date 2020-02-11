@@ -48,7 +48,7 @@ class CustomDropdown extends Component{
   render(){
     const{listOpen, headerTitle} = this.state
     return(
-      <div className="btn-primary disabled dd-wrapper">
+      <div className="btn-dark disabled dd-wrapper">
         <div className="dd-header" onClick={() => this.toggleList()}>
           <div className="dd-header-title">{headerTitle}</div>
           {listOpen

@@ -29,6 +29,19 @@ class UpdateDatabase
     p 'finished updating events'
   end
 
+  def setDailyPrices
+    Event.all.each do |event|
+      price_set = Set[]
+      daily_prices = []
+      event.last_240_prices.reverse_each do |x|
+        date = x["time"].to_date
+        if price_set.add?(date)
+          daily_prices.unshift(x)
+        end
+      end
+      event.update_attributes!(:daily_prices => daily_prices)
+    end
+  end
 
   private
     def get_api_response(taxonomy_to_update, block, pageNumber=1)

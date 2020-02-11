@@ -15,6 +15,12 @@
  *= require bootstrap.min
  */
 
+html, body {
+  min-height: 90vh;
+}
+.footer {
+  min-height: 10vh;
+}
 
 * {
   -moz-osx-font-smoothing: grayscale;
@@ -132,11 +138,20 @@
 .image-fill-space{
   max-height: 100%;
   max-width: 100%;  
+  box-shadow: none;
+}
+
+.drop-shadow {
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.8));
 }
 
 .team-logo {
   max-height: 8rem;
   max-width: 8rem;
+}
+
+.team-logo-modal {
+  max-height: 6rem;
 }
 
 .team-logo-md {
@@ -157,6 +172,12 @@
   display: flex;
   align-items: center;
   text-align: right;
+  justify-content: center;
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.5));
+}
+
+.team-header-text {
+  font-size: 5vw
 }
 
 .performer-list .card {
@@ -189,10 +210,65 @@
   max-height: 5rem
 }
 
-.home-events-btn, .follow-btn {
-  margin-left: 1rem;
+.switch.btn, .follow-btn {
+  display: block
 }
 
 .list-group {
   margin-top:1rem
 }
+
+.event-list-item:hover{
+  cursor: pointer
+}
+
+.container {
+  min-height: inherit;
+}
+
+.section-header {
+  padding: 1rem;
+  background-color: #482879;
+  color: white;
+  margin-top: 3rem;
+  display: inline-block
+}
+
+.page-header {
+  padding: 1rem;
+  background-color: #17141F;
+  color: white;
+  margin-top: 3rem
+}
+
+.modal-header, .modal-footer{
+  background-color: #17141F;
+  color: white
+}
+
+.modal-header button.close{
+  color:white
+}
+.modal-header button.close:hover{
+  color:inherit;
+  text-decoration: none
+}
+
+.centered-header{
+  align-items: center;
+  display: grid;
+}
+
+.graph-title{
+  margin: auto
+}
+
+.adLink{
+  padding: 1rem
+}
+
+.frontPageLink:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-decoration: none
+}
+

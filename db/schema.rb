@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_03_201853) do
+ActiveRecord::Schema.define(version: 2020_02_10_050023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2020_02_03_201853) do
     t.datetime "local_start_time"
     t.boolean "dropped", default: false
     t.string "timezone"
+    t.json "daily_prices", default: []
     t.index ["event_number"], name: "index_events_on_event_number", unique: true
     t.index ["name"], name: "index_events_on_name"
   end

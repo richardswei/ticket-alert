@@ -1,10 +1,19 @@
-<h2>Account</h2>
-<div>Hi, <%= @user.username %></div>
-<div>You are following these events:</div>
-<table>
+<%= react_component("JumbotronPageHeader", {header: "Hi, #{@user.username}!"}) %>
+
+<h2>Followed Events</h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Time</th>
+      <th scope="col">Event</th>
+      <th scope="col">Price</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
   <%@event_follows.sort_by { |event_follow| event_follow.event.event_time_utc }.each do |event_follow|%>
     <% event = event_follow.event %>
-    <tr>
+    <tr class="table-secondary">
       <td>
         <%=event.local_start_time.strftime('%m/%d/%y %I:%M %p %Z') %>
       </td>
@@ -19,4 +28,5 @@
       </td>
     </tr>
   <%end%>
+  </tbody>
 </table>

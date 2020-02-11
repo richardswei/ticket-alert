@@ -1,11 +1,11 @@
-import React from "react"
+import React, { Component } from 'react';
 // import PropTypes from "prop-types"
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Image from 'react-bootstrap/Image'
 
-class EventCard extends React.Component {
+class EventCard extends Component {
   render () {
     return (
       <Card className="event-card-main">

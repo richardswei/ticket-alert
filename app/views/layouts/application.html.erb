@@ -8,6 +8,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application' %>
     <!-- Optional JavaScript -->
+    <script src="https://cdn.rawgit.com/imsky/holder/master/holder.js"></script>
 
 
   </head>
@@ -30,6 +31,7 @@
       <% end %>
       <%= yield %>
     </div> 
+    <%= react_component("Footer")%>
   </body>
 </html>
 

@@ -1,4 +1,5 @@
-import React from "react"
+import React, { Component } from 'react';
+
 // import PropTypes from "prop-types"
 import LeagueDropdownList from './LeagueDropdownList'
 import CustomDropdown from './CustomDropdown'
@@ -13,7 +14,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 
-class MainNavbar extends React.Component {
+class MainNavbar extends Component {
   constructor(props) {
     super(props)
     this.state = { value: '' }
@@ -39,7 +40,7 @@ class MainNavbar extends React.Component {
   render () {
     const all_performers = this.props.performers
     return (
-      <Navbar collapseOnSelect expand="md" bg="primary" variant="dark">
+      <Navbar collapseOnSelect expand="md" variant="dark" bg="dark">
         <Navbar.Brand href="/">
           <h2>TicketAlert</h2>
         </Navbar.Brand>
@@ -85,7 +86,7 @@ class MainNavbar extends React.Component {
           </Nav>
           <Nav>
             <Form onSubmit={this.handleSubmit} inline>
-              <FormControl onChange={this.handleChange} type="text" placeholder="Search" className="mr-sm-2" />
+              <FormControl onChange={this.handleChange} type="text" placeholder="Search by team or location" className="mr-sm-2" />
             </Form>
           </Nav>
           <Nav>

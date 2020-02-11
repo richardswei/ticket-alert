@@ -1,9 +1,9 @@
-import React from "react"
+import React, { Component } from 'react';
 // import PropTypes from "prop-types"
 import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button'
 
-class PerformerLogo extends React.Component {
+class PerformerLogo extends Component {
   render () {
     return (
       <React.Fragment>

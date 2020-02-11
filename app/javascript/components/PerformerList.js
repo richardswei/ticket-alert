@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from 'react';
 // import PropTypes from "prop-types"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -20,7 +20,7 @@ function performerSort(performers) {
   })
 }
 
-class PerformerList extends React.Component {
+class PerformerList extends Component {
   render () {
     const performers = performerSort(this.props.performers)
     if (performers.length>0) {
@@ -30,13 +30,15 @@ class PerformerList extends React.Component {
             {performers.map((item) => (
               <Col key={`${item.id}`} className="performer-btn" sm={6} md={3} lg={2}>
                 <Card border="light">
-                  <a className='inner-card' href={`performers/${item.id}`}>
+                  <a className='inner-card' href={`/performers/${item.id}`}>
                     <Card.Img
+                      alt="--No Image--"
                       className="image-fill-space"
                       variant="top" 
                       src={`/logos/${item.slug}.svg`} 
                       ref={img => this.img = img} 
-                      onError={() => this.img.src = '/no-image-found.svg' } />
+                      // onError={() => this.img.src = '/no-image-found.svg' }
+                    />
                     <Card.Text className="card-team-name">{item.name}</Card.Text>
                   </a>
                 </Card>

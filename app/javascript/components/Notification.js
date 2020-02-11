@@ -1,8 +1,8 @@
-import React from "react"
+import React, { Component } from 'react';
 // import PropTypes from "prop-types"
 import Alert from 'react-bootstrap/Alert'
 
-class Notification extends React.Component {
+class Notification extends Component {
   render () {
     return (
       <React.Fragment>
