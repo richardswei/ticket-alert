@@ -20,10 +20,10 @@ function getPriceTextFromList(price_list) {
 }
 
 function EventDetailsModal(props) {
-  const event = props.eventdetails
-  console.log(props)
+  const event_details = props.event_details
+  console.log(event_details)
   return (
-    event && <Modal
+    <Modal
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
@@ -31,7 +31,7 @@ function EventDetailsModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {event.name}
+          {event_details.name}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -39,19 +39,19 @@ function EventDetailsModal(props) {
           <Row className="justify-content-md-center">
             <Image
               className="team-logo-modal"
-              src={`/logos/${event.performers.filter((x)=>x.slug!==event.home_team)[0].slug}.svg`}>
+              src={`/logos/${event_details.performers.filter((x)=>x.slug!==event_details.home_team)[0].slug}.svg`}>
             </Image>
             <span className="centered-header"><h3>@</h3></span>
             <Image 
               className="team-logo-modal" 
-              src={`/logos/${event.home_team}.svg`}>
+              src={`/logos/${event_details.home_team}.svg`}>
             </Image>
           </Row>
           <Row className="centered-header" >
             <h4 className="graph-title">Price Tracker</h4>
           </Row>
           <Row>
-            <LineChart data={event.daily_prices}/>
+            <LineChart data={event_details.daily_prices}/>
           </Row>
         </Container>
       </Modal.Body>
@@ -59,8 +59,8 @@ function EventDetailsModal(props) {
         <Button block 
           variant="secondary"
           target="_blank"
-          href={event.url}>
-          {getPriceTextFromList(event.last_240_prices)}
+          href={event_details.url}>
+          {getPriceTextFromList(event_details.last_240_prices)}
         </Button>
       </Modal.Footer>
     </Modal>
@@ -79,25 +79,25 @@ function EventList(props) {
   if (events.length>0) {
     return ( <React.Fragment>
       <EventDetailsModal
-        eventdetails ={modalEvent}
+        event_details ={modalEvent}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
       <ListGroup>
-        { events && events.map((event)=> {
+        { events && events.map((event_item)=> {
           const clientZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-          const event_date = getLocalDate(event.event_time_utc, event.timezone)
-          const local_date = (clientZone == event.timezone) ? event_time :
-            getLocalDate(event.event_time_utc, clientZone)
-          const event_time = getLocalTime(event.event_time_utc, event.timezone)
-          const local_time = (clientZone == event.timezone) ? event_time :
-            getLocalTime(event.event_time_utc, clientZone)
-          const isFollowed = followed_event_ids.includes(event.id)
-          return (<React.Fragment key={event.id}>
+          const event_date = getLocalDate(event_item.event_time_utc, event_item.timezone)
+          const local_date = (clientZone == event_item.timezone) ? event_time :
+            getLocalDate(event_item.event_time_utc, clientZone)
+          const event_time = getLocalTime(event_item.event_time_utc, event_item.timezone)
+          const local_time = (clientZone == event_item.timezone) ? event_time :
+            getLocalTime(event_item.event_time_utc, clientZone)
+          const isFollowed = followed_event_ids.includes(event_item.id)
+          return (<React.Fragment key={event_item.id}>
             <ListGroup.Item 
               className="event-list-item" 
               onClick={() => {
-                setModalEvent(event);
+                setModalEvent(event_item);
                 setModalShow(true)
               }}
             >
@@ -118,7 +118,7 @@ function EventList(props) {
                          (<div><small>{`${event_date+"@"+event_time}`}</small><br/><small>{`${local_date+"@"+local_time}`}</small></div>)
                     }</Col>
                     <Col md>
-                      <strong>{event.name}</strong>
+                      <strong>{event_item.name}</strong>
                     </Col>
                     <Col md="auto">
                       <ButtonToolbar>
@@ -127,14 +127,14 @@ function EventList(props) {
                           onClick={handleClick} 
                           variant="secondary"
                           target="_blank"
-                          href={event.url}
+                          href={event_item.url}
                         >
-                          {getPriceTextFromList(event.last_240_prices)}
+                          {getPriceTextFromList(event_item.last_240_prices)}
                         </Button>
                         <Button
                           size="sm"
-                          event_id={event.id}
-                          onClick={(e) => props.handleIndividualClick(props.current_user, followed_event_ids, event.id, isFollowed, e)}
+                          event_id={event_item.id}
+                          onClick={(e) => props.handleIndividualClick(props.current_user, followed_event_ids, event_item.id, isFollowed, e)}
                           variant="info"
                         >
                           {isFollowed ? "Unfollow" : "Follow"}
