@@ -10,8 +10,8 @@ function getLocalTime(dateTime) {
   return d; 
 }
 
-function addIndividualFollow(performer_id, event_id, csrf_token) {
-  fetch(`${performer_id}/events/${event_id}/add_individual_follow`, {
+function addIndividualFollow(event_id, csrf_token) {
+  fetch(`/events/${event_id}/add_individual_follow`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     // redirect: 'follow', // manual, *follow, error
     headers: {
@@ -22,8 +22,8 @@ function addIndividualFollow(performer_id, event_id, csrf_token) {
   })
 }
 
-function deleteIndividualFollow(performer_id, event_id, csrf_token) {
-  fetch(`${performer_id}/events/${event_id}/delete_individual_follow`, {
+function deleteIndividualFollow(event_id, csrf_token) {
+  fetch(`/events/${event_id}/delete_individual_follow`, {
     method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
     // redirect: 'follow', // manual, *follow, error
     headers: {
@@ -88,7 +88,7 @@ class PerformerEvents extends Component {
       }
     }
   }
-  handleIndividualFollowClick(followed_event_ids, event_id, isFollowed, e) {
+  handleIndividualFollowClick(current_user, followed_event_ids, event_id, isFollowed, e) {
     console.log(e);
     console.log(event_id);
     e.stopPropagation();
@@ -96,10 +96,10 @@ class PerformerEvents extends Component {
       window.location.replace("/users/sign_in");
     } else {
       if (isFollowed) {
-        deleteIndividualFollow(this.props.performer.id, event_id, this.props.csrf);
+        deleteIndividualFollow(event_id, this.props.csrf);
         this.setState({followed_event_ids: followed_event_ids.filter(x=>x!==event_id)})
       } else {
-        addIndividualFollow(this.props.performer.id, event_id, this.props.csrf);
+        addIndividualFollow(event_id, this.props.csrf);
         this.setState({followed_event_ids: [event_id, ...followed_event_ids]})
       }
     }

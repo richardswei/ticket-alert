@@ -5,5 +5,10 @@
   <h5 class="section-header">Performers</h5>
   <%= react_component("PerformerList", {performers: @performers_results}) %>
   <h5 class="section-header">Events</h5>
-  <%= react_component("EventList", {events: @events_results, followed_event_ids: @event_ids })%>
+  <%= react_component("SearchResultsEventList", {
+    events: @events_results,
+    followed_event_ids: @followed_event_ids,
+    current_user: current_user,
+    csrf: @csrf
+  })%>
 </body>

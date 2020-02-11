@@ -24,6 +24,7 @@ class PerformersController < ApplicationController
       checked: false,
       csrf: form_authenticity_token,
       current_user: current_user,
+      original_url: request.original_url
     }, prerender: false
   end
 

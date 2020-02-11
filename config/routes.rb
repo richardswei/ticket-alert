@@ -24,11 +24,13 @@ Rails.application.routes.draw do
       get :nhl, on: :collection
       post :add_team_follow, on: :member
       delete :delete_team_follow, on: :member
-      resources :events do 
-        post :add_individual_follow, on: :member
-        delete :delete_individual_follow, on: :member
-      end
+      resources :events
     end
+    resources :events do 
+      post :add_individual_follow, on: :member
+      delete :delete_individual_follow, on: :member
+    end
+
     # resources :users, only: [:show]
     # post "home/populate_database"
     # post "home/update_events"
