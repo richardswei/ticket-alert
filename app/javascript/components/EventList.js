@@ -21,6 +21,7 @@ function getPriceTextFromList(price_list) {
 
 function EventDetailsModal(props) {
   const event = props.eventdetails
+  console.log(props)
   return (
     event && <Modal
       {...props}
@@ -36,21 +37,21 @@ function EventDetailsModal(props) {
       <Modal.Body>
         <Container>
           <Row className="justify-content-md-center">
-              <Image
-                className="team-logo-modal"
-                src={`/logos/${event.performers.filter((x)=>x.slug!==event.home_team)[0].slug}.svg`}>
-              </Image>
-              <span className="centered-header"><h3>@</h3></span>
-              <Image 
-                className="team-logo-modal" 
-                src={`/logos/${event.home_team}.svg`}>
-              </Image>
+            <Image
+              className="team-logo-modal"
+              src={`/logos/${event.performers.filter((x)=>x.slug!==event.home_team)[0].slug}.svg`}>
+            </Image>
+            <span className="centered-header"><h3>@</h3></span>
+            <Image 
+              className="team-logo-modal" 
+              src={`/logos/${event.home_team}.svg`}>
+            </Image>
           </Row>
           <Row className="centered-header" >
             <h4 className="graph-title">Price Tracker</h4>
           </Row>
           <Row>
-            <LineChart data = {event.daily_prices}/>
+            <LineChart data={event.daily_prices}/>
           </Row>
         </Container>
       </Modal.Body>
