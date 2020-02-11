@@ -13,7 +13,7 @@ import {
   Popover
 } from 'react-bootstrap'
 import { getLocalTime, getLocalDate } from '../utils/time';
-import EventPopover from "./EventPopover"
+import LineChart from "./LineChart"
 
 function getPriceTextFromList(price_list) {
   const current_price = price_list.length===0 ? null : price_list[price_list.length-1].price;
@@ -24,9 +24,11 @@ function EventList(props) {
   function handleClick(e) {
     e.stopPropagation();
   }
-  function handlePopoverClick(id, e) {
+  function handlePopoverClick(event_item, e) {
     console.log(popoverId)
-    console.log(id)
+    const id = event_item.id
+    console.log(event_item)
+    setPopoverEvent(event_item)
     setShow(id!==popoverId);
     setPopoverId(id);
     setTarget(e.target);
@@ -36,6 +38,7 @@ function EventList(props) {
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
   const [popoverId, setPopoverId] = useState(null);
+  const [popoverEvent, setPopoverEvent] = useState(events[0]);
   const ref = useRef(null);
 
   if (events.length>0) {
@@ -48,9 +51,12 @@ function EventList(props) {
         containerPadding={20}
       >
         <Popover id="popover-contained">
-          <Popover.Title as="h3">Popover bottom</Popover.Title>
+          <Popover.Title as="h3">{popoverEvent.name}</Popover.Title>
           <Popover.Content>
-            <strong>Holy guacamole!</strong> Check this info.
+            <strong>Daily Price History!</strong>
+            <LineChart
+              data = {popoverEvent.daily_prices}
+            ></LineChart>
           </Popover.Content>
         </Popover>
       </Overlay>
@@ -67,7 +73,7 @@ function EventList(props) {
           return (<React.Fragment key={event_item.id}>
             <ListGroup.Item 
               className="event-list-item"
-              onClick={(e) => handlePopoverClick(event_item.id, e)}
+              onClick={(e) => handlePopoverClick(event_item, e)}
             >
                 <Container>
                   <Row>
