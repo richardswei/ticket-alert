@@ -149,7 +149,7 @@ html, body {
 }
 
 .team-logo-modal {
-  max-height: 8rem;
+  max-height: 6rem;
 }
 
 .team-logo-md {
@@ -208,8 +208,8 @@ html, body {
   max-height: 5rem
 }
 
-.home-events-btn, .follow-btn {
-  margin-left: 1rem;
+.switch.btn, .follow-btn {
+  display: block
 }
 
 .list-group {

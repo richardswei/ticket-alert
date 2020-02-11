@@ -25,7 +25,7 @@ class LineChart extends Component {
       x: {
         type: "timeseries",
         tick: {
-          format: "%e %b %y"
+          format: "%e %b"
         }
       }
     };

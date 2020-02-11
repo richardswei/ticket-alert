@@ -28,7 +28,7 @@ class TeamHeader extends Component {
     return (
       <Jumbotron style={jumbotronStyle}>
         <Container fluid>
-          <Row >
+          <Row>
             <Col sm={12} md={6}>
               <Image className="drop-shadow image-fill-space" 
                 src={`/logos/${this.props.slug}.svg`} 

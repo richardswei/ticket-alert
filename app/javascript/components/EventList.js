@@ -3,6 +3,7 @@ import {
   Image,
   ListGroup,
   Button,
+  ButtonToolbar,
   Container,
   Row,
   Col,
@@ -12,30 +13,6 @@ import {
 } from 'react-bootstrap'
 import LineChart from './LineChart'
 import { getLocalTime, getLocalDate } from '../utils/time';
-
-function addFollow(event_id, csrf_token) {
-  fetch(event_id+'/add_individual_follow', {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    // redirect: 'follow', // manual, *follow, error
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": csrf_token
-    },
-    // body: JSON.stringify({'id': event.id})
-  })
-}
-
-function deleteFollow(event_id, csrf_token) {
-  fetch(event_id+'/delete_individual_follow', {
-    method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-    // redirect: 'follow', // manual, *follow, error
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": csrf_token
-    },
-    // body: JSON.stringify({'id': event.id})
-  })
-}
 
 function getPriceTextFromList(price_list) {
   const current_price = price_list.length===0 ? null : price_list[price_list.length-1].price;
@@ -59,21 +36,15 @@ function EventDetailsModal(props) {
       <Modal.Body>
         <Container>
           <Row className="justify-content-md-center">
-            <Col md="4">
-              <Image 
-                className="team-logo-modal" 
+              <Image
+                className="team-logo-modal"
                 src={`/logos/${event.performers.filter((x)=>x.slug!==event.home_team)[0].slug}.svg`}>
               </Image>
-            </Col>
-            <Col xs="auto" className="centered-header">
-              <span><h1>@</h1></span>
-            </Col>
-            <Col md="4">
+              <span className="centered-header"><h3>@</h3></span>
               <Image 
                 className="team-logo-modal" 
                 src={`/logos/${event.home_team}.svg`}>
               </Image>
-            </Col>
           </Row>
           <Row className="centered-header" >
             <h4 className="graph-title">Price Tracker</h4>
@@ -99,26 +70,11 @@ function EventList(props) {
   function handleClick(e) {
     e.stopPropagation();
   }
-  function handleFollow(id, isFollowed, e) {
-    e.stopPropagation();
-    console.log(followedEvents)
-    console.log(isFollowed)
-    console.log(id)
-    // ids = 
-    if (isFollowed) { // remove the id
-      const followList = followedEvents.filter((x)=> x!==id)
-      console.log(followList)
-      setFollowed(followList)
-    } else {
-      const followList = [id, ...followedEvents]
-      setFollowed(followList)
-    }
-  }
   const followed_event_ids = props.followed_event_ids
   const events = props.events
   const [modalShow, setModalShow] = React.useState(false);
   const [modalEvent, setModalEvent] = React.useState(events[0]);
-  const [followedEvents, setFollowed] = React.useState(followed_event_ids);
+  console.log(followed_event_ids)
   if (events.length>0) {
     return ( <React.Fragment>
       <EventDetailsModal
@@ -135,7 +91,7 @@ function EventList(props) {
           const event_time = getLocalTime(event.event_time_utc, event.timezone)
           const local_time = (clientZone == event.timezone) ? event_time :
             getLocalTime(event.event_time_utc, clientZone)
-          const isFollowed = followedEvents.includes(event.id)
+          const isFollowed = followed_event_ids.includes(event.id)
           return (<React.Fragment key={event.id}>
             <ListGroup.Item 
               className="event-list-item" 
@@ -161,28 +117,28 @@ function EventList(props) {
                          (<div><small>{`${event_date+"@"+event_time}`}</small><br/><small>{`${local_date+"@"+local_time}`}</small></div>)
                     }</Col>
                     <Col md>
-                      <div>{event.name}</div>
+                      <strong>{event.name}</strong>
                     </Col>
                     <Col md="3">
-                      <Row>
+                      <ButtonToolbar>
                         <Button
-                          event_id={event.id}
-                          onClick={(e) => handleFollow(event.id, isFollowed, e)}
-                          variant="info"
-                        >
-                          {isFollowed ? "Unfollow" : "Follow"}
-                        </Button>
-                      </Row>
-                      <Row>
-                        <Button block 
+                          size="sm"
                           onClick={handleClick} 
-                          variant="secondary"
+                          variant="link"
                           target="_blank"
                           href={event.url}
                         >
                           {getPriceTextFromList(event.last_240_prices)}
                         </Button>
-                      </Row>
+                        <Button
+                          size="sm"
+                          event_id={event.id}
+                          onClick={(e) => props.handleIndividualClick(followed_event_ids, event.id, isFollowed, e)}
+                          variant="info"
+                        >
+                          {isFollowed ? "Unfollow" : "Follow"}
+                        </Button>
+                      </ButtonToolbar>
                     </Col>
                   </Row>
                 </Container>
