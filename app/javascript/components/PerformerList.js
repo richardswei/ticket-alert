@@ -32,6 +32,7 @@ class PerformerList extends Component {
                 <Card border="light">
                   <a className='inner-card' href={`/performers/${item.id}`}>
                     <Card.Img
+                      alt="--No Image--"
                       className="image-fill-space"
                       variant="top" 
                       src={`/logos/${item.slug}.svg`} 

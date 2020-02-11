@@ -16,9 +16,11 @@
  */
 
 html, body {
-    min-height: 100vw;
+  min-height: 90vh;
 }
-
+.footer {
+  min-height: 10vh;
+}
 
 * {
   -moz-osx-font-smoothing: grayscale;
@@ -259,5 +261,9 @@ html, body {
 
 .graph-title{
   margin: auto
+}
+
+.adLink{
+  padding: 1rem
 }
 
