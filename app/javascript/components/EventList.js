@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from "prop-types"
+
 import {
   Image,
   ListGroup,
@@ -24,7 +26,8 @@ function EventDetailsModal(props) {
   console.log(event_details)
   return (
     <Modal
-      {...props}
+      show={props.show}
+      onHide={props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -75,7 +78,6 @@ function EventList(props) {
   const events = props.events
   const [modalShow, setModalShow] = React.useState(false);
   const [modalEvent, setModalEvent] = React.useState(events[0]);
-  console.log(followed_event_ids)
   if (events.length>0) {
     return ( <React.Fragment>
       <EventDetailsModal
