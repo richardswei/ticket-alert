@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from "prop-types"
-
 import {
   Image,
   ListGroup,
@@ -9,65 +7,15 @@ import {
   Container,
   Row,
   Col,
-  Modal,
   Tooltip,
   OverlayTrigger
 } from 'react-bootstrap'
-import LineChart from './LineChart'
 import { getLocalTime, getLocalDate } from '../utils/time';
+import EventModal from "./EventModal"
 
 function getPriceTextFromList(price_list) {
   const current_price = price_list.length===0 ? null : price_list[price_list.length-1].price;
   return current_price ? `Starting at $${current_price}` : "Currently sold out"
-}
-
-function EventDetailsModal(props) {
-  const event_details = props.event_details
-  console.log(event_details)
-  return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          {event_details.name}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Container>
-          <Row className="justify-content-md-center">
-            <Image
-              className="team-logo-modal"
-              src={`/logos/${event_details.performers.filter((x)=>x.slug!==event_details.home_team)[0].slug}.svg`}>
-            </Image>
-            <span className="centered-header"><h3>@</h3></span>
-            <Image 
-              className="team-logo-modal" 
-              src={`/logos/${event_details.home_team}.svg`}>
-            </Image>
-          </Row>
-          <Row className="centered-header" >
-            <h4 className="graph-title">Price Tracker</h4>
-          </Row>
-          <Row>
-            <LineChart data={event_details.daily_prices}/>
-          </Row>
-        </Container>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button block 
-          variant="secondary"
-          target="_blank"
-          href={event_details.url}>
-          {getPriceTextFromList(event_details.last_240_prices)}
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
 }
 
 function EventList(props) {
@@ -80,7 +28,7 @@ function EventList(props) {
   const [modalEvent, setModalEvent] = React.useState(events[0]);
   if (events.length>0) {
     return ( <React.Fragment>
-      <EventDetailsModal
+      <EventModal
         event_details ={modalEvent}
         show={modalShow}
         onHide={() => setModalShow(false)}
