@@ -1,44 +1,70 @@
 import React, { Component } from "react";
-// component and styles
-import BillboardChart from "react-billboardjs";
-import "react-billboardjs/lib/billboard.css";
+// base css
 
 class LineChart extends Component {
-  render() {
+  
+  componentDidMount() {
+    this._renderChart();
+  }
+
+  _renderChart() {
     const data = this.props.data;
     const times = data.map((d) => new Date(d.time).setHours(0, 0, 0, 0))
     const prices = data.map((d) => d.price);
     times.unshift("x");
     prices.unshift("Price");
-    const chart_data = {
-      x: "x",
-      columns: [times,prices]
-    };
+    
     const axis = {
       y: {
         tick: {
           format: function(x) {
             return "$"+x;
+          },
+          culling: {
+            max: 5
           }
         }
       },
       x: {
         type: "timeseries",
         tick: {
+          rotate: 45,
           format: "%e %b"
         }
       }
     };
     const point = {
       show: false    
-    }
-    return (
-      <BillboardChart
-        data={chart_data}
-        axis={axis}
-        point={point}
-      />
-    );
+    };
+
+    bb.generate({
+      bindto: "#chart",
+      padding: {right:40},
+      data: {
+        columns: [times,prices],
+        type: "line",
+        color: "green",
+        x: "x",
+      },
+      axis: axis,
+      legend: {
+        show: false
+      },
+      tooltip: {
+        contents: {
+          bindto: "#info",
+        }
+      },
+    });
+  }
+
+  render() {
+    return ( <div>
+        <div id="chart"></div>
+        <div id="info"></div> 
+      </div>
+      )
   }
 }
+
 export default LineChart
