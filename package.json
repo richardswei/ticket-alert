@@ -5,6 +5,7 @@
     "@babel/preset-react": "^7.7.4",
     "@rails/webpacker": "4.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "billboard.js": "^1.11.1",
     "bootstrap-switch-button-react": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
