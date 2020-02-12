@@ -45,9 +45,9 @@ class FrontPage extends Component {
             <a href="/users/sign_up"> Sign up here!</a>
           </p>
         </Jumbotron>
-        <a className="frontPageLink" href="performers/nfl"><Jumbotron style={jumbotronNFL} fluid>
+{/*        <a className="frontPageLink" href="performers/nfl"><Jumbotron style={jumbotronNFL} fluid>
           <h2 className="display-3">NFL</h2>
-        </Jumbotron></a>
+        </Jumbotron></a>*/}
         <a className="frontPageLink" href="performers/mlb"><Jumbotron style={jumbotronMLB} fluid>
           <h2 className="display-3">MLB</h2>
         </Jumbotron></a>
