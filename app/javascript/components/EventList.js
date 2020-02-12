@@ -25,13 +25,15 @@ function EventList(props) {
     e.stopPropagation();
   }
   function handlePopoverClick(event_item, e) {
-    console.log(popoverId)
-    const id = event_item.id
-    console.log(event_item)
+    // swap positions depending on show state to prevent flicker
+    if (!show) {
+      setTarget(e.target);
+      setShow(!show);
+    } else {
+      setShow(!show);      
+      setTarget(e.target);
+    }
     setPopoverEvent(event_item)
-    setShow(id!==popoverId);
-    setPopoverId(id);
-    setTarget(e.target);
   }
   const followed_event_ids = props.followed_event_ids
   const events = props.events

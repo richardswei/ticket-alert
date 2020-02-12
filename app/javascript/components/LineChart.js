@@ -8,7 +8,7 @@ class LineChart extends Component {
   }
 
   _renderChart() {
-
+    console.log(this.props.data)
     const data = this.props.data;
     const times = data.map((d) => new Date(d.time).setHours(0, 0, 0, 0))
     const prices = data.map((d) => d.price);
