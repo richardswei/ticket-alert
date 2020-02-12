@@ -20,6 +20,9 @@ class LineChart extends Component {
         tick: {
           format: function(x) {
             return "$"+x;
+          },
+          culling: {
+            max: 5
           }
         }
       },
