@@ -41,15 +41,27 @@ class LineChart extends Component {
       data: {
         columns: [times,prices],
         type: "line",
+        color: "green",
         x: "x",
       },
       axis: axis,
-      point: point
+      legend: {
+        show: false
+      },
+      tooltip: {
+        contents: {
+          bindto: "#info",
+        }
+      },
     });
   }
 
   render() {
-    return <div id="chart" />;
+    return ( <div>
+        <div id="chart"></div>
+        <div id="info"></div> 
+      </div>
+      )
   }
 }
 

@@ -46,7 +46,7 @@ function EventList(props) {
       <Overlay
         show={show}
         target={target}
-        placement="top"
+        placement="right"
         container={ref.current}
         containerPadding={20}
       >
