@@ -8,22 +8,43 @@ class LineChart extends Component {
   }
 
   _renderChart() {
-    bb.generate({
-      bindto: "#chart",
-      data: {
-        columns: [
-          ["data1", 30, 200, 100, 170, 150, 250],
-          ["data2", 130, 100, 140, 35, 110, 50]
-        ],
-        types: {
-          data1: "line",
-          data2: "area-spline"
-        },
-        colors: {
-          data1: "red",
-          data2: "green"
+
+    const data = this.props.data;
+    const times = data.map((d) => new Date(d.time).setHours(0, 0, 0, 0))
+    const prices = data.map((d) => d.price);
+    times.unshift("x");
+    prices.unshift("Price");
+    
+    const axis = {
+      y: {
+        tick: {
+          format: function(x) {
+            return "$"+x;
+          }
+        }
+      },
+      x: {
+        type: "timeseries",
+        tick: {
+          rotate: 45,
+          format: "%e %b"
         }
       }
+    };
+    const point = {
+      show: false    
+    };
+
+    bb.generate({
+      bindto: "#chart",
+      padding: {right:40},
+      data: {
+        columns: [times,prices],
+        type: "line",
+        x: "x",
+      },
+      axis: axis,
+      point: point
     });
   }
 
